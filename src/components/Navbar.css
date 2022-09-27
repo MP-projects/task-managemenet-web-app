@@ -1,0 +1,51 @@
+.navbar{
+    width: 1130px;
+    height: 100px;
+    margin: 10px 10px 10px 0;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+
+}
+.navbar__text-wrapper{
+    display: flex;
+    align-items: center;
+    margin-left: 24px;
+}
+.navbar__text{
+font-weight: 700;
+font-size: 24px;
+line-height: 30px;
+color: #000112;
+}
+.navbar__board-menu-wrapper{
+    margin-right: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.navabar__new-task-button{
+width: 164px;
+height: 48px;
+margin-right: 14px;
+border-radius: 48px;
+background-color: #635FC7;
+opacity: 0.25;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.navabr__new-task-text{
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 19px; 
+    color: #FFFFFF;
+}
+.navbar__board-menu-button{
+    width: 20px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

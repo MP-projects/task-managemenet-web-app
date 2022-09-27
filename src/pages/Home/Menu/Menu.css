@@ -1,0 +1,134 @@
+.menu{
+    width: 280px;
+    margin: 10px;
+    height: 780px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+
+    
+
+}
+
+.menu__logo{
+padding: 40px 100px 54px 46px;
+
+    
+}
+.menu__board-list{
+    flex-basis: 70%;
+}
+.menu__boards-counter{
+    width: 100%;
+    height: 46px;
+    font-weight: 700;
+    padding-left: 32px;
+font-size: 12px;
+line-height: 46px;
+letter-spacing: 2.4px;
+
+color: #828FA3;
+}
+.menu__board-element{
+    width: 100%;
+height: 46px;
+display: flex;
+align-items: center;
+}
+.menu__board-element-button{
+    width: 100%;
+    height: 100%;
+display: flex;
+align-items: center;
+
+}
+.menu__board-element-button:hover{
+    background-color: #635FC7;
+    color: white;
+}
+.menu__board-element-button:hover>li {
+    color: white;
+}
+.menu__board-element-button:hover>img {
+    filter:brightness(0) invert(1);
+}
+
+
+.menu__board-element-img{
+    padding: 0 16px 0 32px ;
+    
+
+}
+.menu__board-element-li{
+font-weight: 700;
+font-size: 15px;
+line-height: 19px;
+color: #828FA3;
+}
+.menu__create-button-wrapper{
+    width: 100%;
+    height: 46px;
+    display: flex;
+align-items: center;
+}
+.menu__create-button{
+    display: flex;
+    color: #635FC7;
+}
+.menu__create-button-img{
+    padding: 0 16px 0 32px ;
+    filter: brightness(0);
+    filter: invert(49%) sepia(84%) saturate(3647%) hue-rotate(223deg) brightness(82%) contrast(87%);
+}
+.menu__create-button-text{
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 19px;
+    color: #635FC7;
+}
+.menu__toggle-mode{
+flex-basis: 20%;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+.menu__toggle-mode-wrapper{
+    width: 80%;
+    height: 48px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e4ebfa;
+}
+.menu__toggle-mode-button{
+    width: 40px;
+    height: 20px;
+    margin: 0 12px;
+    border-radius: 20px;
+    background-color: #635FC7;;
+}
+.menu__toggle-mode-button-circle {
+    margin-left: 5px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.menu__hide-sidebar{
+    width: 75%;
+    height: 48px;
+    display: flex;
+    align-items: center;
+}
+.menu__hide-sidebar-img{
+margin-right: 15px;
+}
+.menu__hide-sidebard-text{
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 19px;  
+    color: #828FA3;
+}
