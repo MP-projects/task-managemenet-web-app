@@ -3,12 +3,12 @@ import "firebase/firestore";
 import "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyClk0QNRwqpx3-DmsJ0pZ4SHrNwV_q_qaI",
-  authDomain: "task-management-web-app-b2286.firebaseapp.com",
-  projectId: "task-management-web-app-b2286",
-  storageBucket: "task-management-web-app-b2286.appspot.com",
-  messagingSenderId: "510256032485",
-  appId: "1:510256032485:web:4b42b9a99dbe25e86a420c",
+  apiKey: "AIzaSyCAR99i28EQv5B3MjXLAjjSNDfPzZf7iIo",
+  authDomain: "kanban-database.firebaseapp.com",
+  projectId: "kanban-database",
+  storageBucket: "kanban-database.appspot.com",
+  messagingSenderId: "369352286637",
+  appId: "1:369352286637:web:845b7eb6c183076e4c4124"
 };
 
 // init firebase

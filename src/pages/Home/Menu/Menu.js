@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate, Link } from "react-router-dom";
+import { useCollection } from "../../../hooks/useCollection";
 //style
 import "./Menu.css";
 
@@ -14,17 +15,16 @@ import logoDark from "../../../assets/logo-dark.svg";
 //components
 import BoardButton from "./BoardButton";
 import CreateBoard from "./CreateBoard";
-import AddBoard from "../AddBoard/AddBoard"
+import AddBoard from "../AddBoard/AddBoard";
+import { useEffect } from "react";
 
+export default function Menu({ uid, documents }) {
 
-export default function Menu() {
-  const initialBoards = ["Platform launch", "Marketing plan", "Roadmap"];
-  const [boards, setBoards] = useState(initialBoards);
 
   const navigate = useNavigate();
 
-  const handleCreateBoard = (click) => {
-    navigate("/home/newBoard");
+  const handleCreateBoard = () => {
+    navigate("newBoard");
   };
 
   return (
@@ -35,11 +35,12 @@ export default function Menu() {
         </div>
         <nav className="menu__board-list">
           <div className="menu__boards-counter">
-            All boards ({boards.length})
+            All boards ({documents && documents.length})
           </div>
-          {boards.map((board) => {
-            return <BoardButton key={board} boardName={board} />;
-          })}
+          {documents &&
+            documents.map((doc) => {
+              return <BoardButton key={doc.id} doc={doc} boardName={doc.name} />
+            })}
           <CreateBoard handleCreateBoard={handleCreateBoard} />
         </nav>
         <aside className="menu__toggle-mode">
@@ -69,7 +70,14 @@ export default function Menu() {
         </aside>
       </aside>
       <Routes>
-        <Route path="newBoard" element={<AddBoard/>} />
+        <Route
+          path="newBoard"
+          element={
+           
+              <AddBoard uid={uid} handleCreateBoard={handleCreateBoard} />
+           
+          }
+        />
       </Routes>
     </>
   );

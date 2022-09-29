@@ -21,19 +21,7 @@ import "./App.css";
 
 function App() {
   const { user, authIsReady } = useAuthContext();
-  console.log(Data);
-  // useEffect(() => {
-  //   let result = [];
-  //   projectFirestore
-  //     .collection("boards")
-  //     .get()
-  //     .then((snapshot) => {
-  //       snapshot.forEach((doc) => {
-  //         result.push({ id: doc.id, ...doc.data() });
-  //       });
-  //       console.log(result);
-  //     });
-  // }, []);
+
 
   return (
     <main className="app">

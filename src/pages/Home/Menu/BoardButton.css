@@ -1,0 +1,12 @@
+.active{
+    background-color: #635FC7;;
+}
+
+.active>.menu__board-element-button>li{
+    color: white;
+}
+.active>.menu__board-element-button>img{
+    color: white;
+    filter:brightness(0) invert(1);
+}
+

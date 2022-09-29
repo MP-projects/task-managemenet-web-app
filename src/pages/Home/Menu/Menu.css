@@ -29,12 +29,14 @@ letter-spacing: 2.4px;
 
 color: #828FA3;
 }
-.menu__board-element{
+
+.menu__board-element>a{
     width: 100%;
 height: 46px;
 display: flex;
 align-items: center;
 }
+
 .menu__board-element-button{
     width: 100%;
     height: 100%;
@@ -43,14 +45,14 @@ align-items: center;
 
 }
 .menu__board-element-button:hover{
-    background-color: #635FC7;
-    color: white;
+   background-color:  rgba(99, 95, 199, 0.1);
 }
 .menu__board-element-button:hover>li {
-    color: white;
+    color: #635FC7
 }
 .menu__board-element-button:hover>img {
-    filter:brightness(0) invert(1);
+    filter:brightness(0) invert(0);
+    filter: invert(44%) sepia(82%) saturate(455%) hue-rotate(203deg) brightness(79%) contrast(97%)
 }
 
 
