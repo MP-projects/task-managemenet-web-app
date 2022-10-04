@@ -378,7 +378,7 @@
       "name": "Roadmap",
       "columns": [
         {
-          "name": "Now",
+          "name": "Todo",
           "tasks": [
             {
               "title": "Launch version one",
@@ -417,11 +417,11 @@
           ]
         },
         {
-          "name": "Next",
+          "name": "Doing",
           "tasks": []
         },
         {
-          "name": "Later",
+          "name": "Done",
           "tasks": []
         }
       ]

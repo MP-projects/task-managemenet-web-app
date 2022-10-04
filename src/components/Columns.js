@@ -1,62 +1,76 @@
 import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams, Routes, Route } from "react-router-dom";
 
 //styles
-import "./Columns.css"
+import "./Columns.css";
 
 //components
 import Task from "./Task";
+import NewTask from "../pages/Home/AddBoard/NewTask";
+import AddBoard from "../pages/Home/AddBoard/AddBoard";
+import SingleColumn from "./SingleColumn";
 
-export default function Columns({ documents }) {
+export default function Columns({ boards, uid, tasks }) {
   const { id } = useParams();
-  const [data, setData] = useState(null);
+  const [currentBoards, setCurrentBoards] = useState(null);
+  const [currentTasks, setCurrentTasks] = useState(null)
+  const [currentColumns, setCurrentColumns] = useState([])
 
-    const columnStyle = (name) => {
-        let color;
-        switch (name) {
-            case "Todo":
-                color ="#49C4E5"
-                break;
-            case "Doing":
-                color ="#8471F2"
-                break;
-            case "Done":
-                color ="#67E2AE"
-                break;
-            default:
-                color ="#E77833"
-    
-        }
-        
-        return({backgroundColor : color})
-  }  
-    
-    
+  const sortTasks = (name) => {
+    let tasks = []
+    let tempCurrentTasks = [...currentTasks]
+    tempCurrentTasks.forEach((task) => {
+      if (task.status === name) {
+        tasks.push(task)
+      }
+    })
+return tasks
+  }
   useEffect(() => {
-    if (documents && id) {
-      documents.forEach((doc) => {
+    if (boards && id) {
+      let columns = [];
+      boards.forEach((doc) => {
         if (doc.id === id) {
-          setData(doc);
+          setCurrentBoards(doc);
+          doc.columns.forEach((column) => {
+            columns.push(column.name)
+          })
+          if (tasks) {
+            let newTasks = []
+            tasks.forEach((task) => {
+              if (task.boardName === doc.name) {
+                newTasks.push(task)        
+              }
+            })
+            setCurrentTasks(newTasks)           
+          }
         }
       });
+      setCurrentColumns(columns)
     }
-  }, [id, documents]);
 
-  console.log(data);
-
+ 
+  }, [id, boards, tasks]);
+console.log(id)
   return (
-    <div className="columns">
-          {data && data.columns.map((column) => {
-          return(
-              <section key={column.name} className={`columns__column`}>
-                  <h2 className="columns__title"><div className="columns__circle" style={columnStyle(column.name)}></div>{`${column.name}(${5})`}</h2>
-            <div className="columns__task-wrapper">
-                <Task/>
-            </div>
-        </section>)
-      })}
-    </div>
+    <>
+      <div className="columns">
+        {currentBoards &&
+          currentBoards.columns.map((column) => {
+            const tasks = sortTasks(column.name)
+            
+            return (
+
+              <SingleColumn key={column.name} name={column.name} tasks = {tasks} currentColumns={currentColumns} />
+
+            );
+          })}
+      </div>
+      <Routes>
+        <Route path="newTask" element={<NewTask boards={boards} uid={uid} />} />
+        <Route path="newBoard" element={<AddBoard uid={uid} />} />
+      </Routes>
+    </>
   );
 }

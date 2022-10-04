@@ -1,6 +1,13 @@
 import React from "react";
 import { useState } from "react";
-import { Routes, Route, Navigate, useNavigate, Link } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+  Link,
+  useLocation,
+} from "react-router-dom";
 import { useCollection } from "../../../hooks/useCollection";
 //style
 import "./Menu.css";
@@ -16,15 +23,14 @@ import logoDark from "../../../assets/logo-dark.svg";
 import BoardButton from "./BoardButton";
 import CreateBoard from "./CreateBoard";
 import AddBoard from "../AddBoard/AddBoard";
-import { useEffect } from "react";
+import NewTask from "../AddBoard/NewTask";
 
-export default function Menu({ uid, documents }) {
-
-
+export default function Menu({ uid, boards }) {
+  const location = useLocation();
   const navigate = useNavigate();
 
   const handleCreateBoard = () => {
-    navigate("newBoard");
+    navigate(`${location.pathname}/newBoard`);
   };
 
   return (
@@ -35,11 +41,13 @@ export default function Menu({ uid, documents }) {
         </div>
         <nav className="menu__board-list">
           <div className="menu__boards-counter">
-            All boards ({documents && documents.length})
+            All boards ({boards && boards.length})
           </div>
-          {documents &&
-            documents.map((doc) => {
-              return <BoardButton key={doc.id} doc={doc} boardName={doc.name} />
+          {boards &&
+            boards.map((doc) => {
+              return (
+                <BoardButton key={doc.id} doc={doc} boardName={doc.name} />
+              );
             })}
           <CreateBoard handleCreateBoard={handleCreateBoard} />
         </nav>
@@ -70,14 +78,7 @@ export default function Menu({ uid, documents }) {
         </aside>
       </aside>
       <Routes>
-        <Route
-          path="newBoard"
-          element={
-           
-              <AddBoard uid={uid} handleCreateBoard={handleCreateBoard} />
-           
-          }
-        />
+        <Route path="newBoard" element={<AddBoard uid={uid} />} />
       </Routes>
     </>
   );

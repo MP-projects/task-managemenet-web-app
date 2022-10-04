@@ -1,0 +1,229 @@
+.background-color{
+    width: 1440px;
+    height: 1024px;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: black;
+    opacity: 0.5;
+}
+
+
+.taskView{
+    width: 480px;
+    min-height: 440px;
+    position: absolute;
+    left: 50%;
+    top: 35%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 6px;
+    z-index: 1;
+}
+
+
+.taskView__close-wrapper{
+        width: 100%;
+        display: flex;
+        justify-content:flex-end;
+}
+.taskView__close-button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 15px 30px 0 ;
+    
+
+}
+.taskView__close-img{
+    width: 15px; 
+    filter: invert(44%) sepia(82%) saturate(455%) hue-rotate(203deg) brightness(79%) contrast(97%)
+}
+
+.taskView__form{
+    min-height: 440px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.taskView__form-h2{
+    max-width:400px;
+    align-self: flex-start;
+
+    font-weight: 700;
+font-size: 18px;
+line-height: 23px;
+}
+.taskView__form-wrapper{
+   width: 400px;
+   margin: 0;
+   display: flex;
+   flex-direction: column; 
+}
+.taskView__form-wrapper--title{
+margin: 32px 0 40px;
+    flex-direction: row;
+}
+.taskView__form-wrapper--subtasks{
+margin-bottom: 24px;
+}
+
+
+.taskView__form-description{
+    margin: 10px;
+   font-weight: 700;
+   font-size: 13px;
+   line-height: 23px;
+   color: #828FA3;
+}
+.taskView__form-span{
+    display: block;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 15px;  
+    color: #828FA3;
+}
+
+.taskView__form-span--margin{
+    margin: 12px 0;
+}
+.taskView__form-span--checked{
+    text-decoration-line: line-through;
+}
+.taskView__form-span--unchecked{
+    font-weight: 700;
+font-size: 12px;
+line-height: 15px;
+text-decoration-line: none;
+
+color: #000112;
+}
+.taskView__form-input-wrapper{
+    width: 100%;
+    height: 40px;
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #F4F7FD;
+    border-radius: 4px;
+    
+    
+}
+.taskView__form-subtask-wrapper{
+    width: 100%;
+    min-height: 40px;
+    margin-top: 16px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #F4F7FD;
+    border-radius: 4px;
+}
+
+.taskView__form-checkbox-wrapper{
+height: 100%;
+display: flex;
+align-items: center;
+
+}
+
+.taskView__form-input-checkbox{
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+accent-color: #635FC7 ;
+
+}
+
+.taskView__form-input-checkbox--subtask{
+margin: 0 10px;
+}
+
+.taskView__form-input-label{
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 15px;
+    opacity: 0.5;
+}
+.taskView__form-select{
+    margin: 12px 0;
+    width: 100%;
+    height: 40px;
+    border: 1px solid rgba(130, 143, 163, 0.25);
+    border-radius: 4px;
+}
+.taskView__form-input{
+    width: 100%;
+    height: 40px;
+    margin: 12px 0;
+    border: 1px solid rgba(130, 143, 163, 0.25);
+border-radius: 4px;
+text-align: left;
+line-height: 40px;
+padding-left: 10px;
+font-size: 13px;
+font-weight: 500;
+}
+.taskView__form-input:focus {
+    outline: 1px solid rgba(130, 143, 163, 0.8);
+}
+
+.taskView__form-input--title{
+    margin: 0;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 23px;
+}
+.taskView__form-column-delete{
+    width: 5%;
+}
+
+.taskView__form-button{
+    width: 100%;
+    height: 40px;
+    margin: 12px 0;
+    border-radius: 20px;
+    color: white;
+    background-color: cadetblue;
+}
+.taskView__form-button--light-purple{
+    color: #635FC7;
+ background-color: rgba(99, 95, 199, 0.1);  
+}
+.taskView__form-button--purple{
+    background-color: #635FC7;
+}
+.taskView__form-button-p{
+    font-weight: 700;
+font-size: 13px;
+line-height: 23px;
+}
+
+.taskView__form-alert{
+    margin-top: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    color: red;
+}
+
+.edit{
+display: inline-block;
+margin-left: 15px;
+}
+.edit--description{
+    position: absolute;
+    right: 10px
+}
+
+.edit__img{
+    width: 15px; 
+    filter: invert(44%) sepia(82%) saturate(455%) hue-rotate(203deg) brightness(79%) contrast(97%);
+    opacity: 0.5;
+}
+.edit__img:hover{
+    opacity: 1;
+}

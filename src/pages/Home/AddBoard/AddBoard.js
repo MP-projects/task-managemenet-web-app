@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFirestore } from "../../../hooks/useFirestore";
 
 //styles
 import "./AddBoard.css";
-import { useEffect } from "react";
+
+//assets
+import CloseIcon from "../../../assets/icon-cross.svg";
 
 export default function AddBoard({ uid }) {
   const initialState = ["Todo", "Doing", "Done", "Custom"];
@@ -123,23 +125,24 @@ export default function AddBoard({ uid }) {
   };
 
   const closeAddBoard = () => {
-    console.log("nawigacja");
-    navigate("/");
+    navigate(-1);
   };
 
   useEffect(() => {
     if (response.succes) {
       navigate("/");
     }
-  }, [response.succes]);
+  }, [response.succes, navigate]);
 
   return (
     <>
       <div className="background-color"></div>
       <section className="newBoard">
-        <button onClick={closeAddBoard}>X</button>
+          <button className="newBoard__close-button" onClick={closeAddBoard}>
+            <img src={CloseIcon} alt="close" className="newBoard__close-img" />
+          </button> 
         <form onSubmit={handleSubmit} className="newBoard__form">
-          <h2 className="newBoard__form-h2">Add new Board</h2>
+          <h2 className="newBoard__form-h2">Create New Board</h2>
           <div className="newBoard__form-wrapper">
             <span className="newBoard__form-span">Name</span>
             <input

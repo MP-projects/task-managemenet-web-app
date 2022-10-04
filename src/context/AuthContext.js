@@ -22,17 +22,14 @@ export const AuthContextProvider = ({ children }) => {
     user: null,
     authIsReady: false,
   });
-  
+
   useEffect(() => {
-   const unsub = projectAuth.onAuthStateChanged((user) => { 
-     dispatch({ type: "AUTH_IS_READY", payload: user });   
-     unsub()
-   });
-    
-    
+    const unsub = projectAuth.onAuthStateChanged((user) => {
+      dispatch({ type: "AUTH_IS_READY", payload: user });
+      unsub();
+    });
   }, []);
 
-  console.log(state);
   return (
     <AuthContext.Provider value={{ ...state, dispatch }}>
       {children}

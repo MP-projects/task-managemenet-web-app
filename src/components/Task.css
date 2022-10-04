@@ -1,0 +1,27 @@
+.task {
+width: 280px;
+min-height: 90px;
+margin-bottom: 20px;
+padding: 23px 16px;
+background-color: white;
+box-shadow: 0px 4px 6px rgba(54, 78, 126, 0.101545);
+border-radius: 8px;
+display: flex;
+flex-direction: column;
+justify-content: center
+}
+
+.task__title{
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 19px; 
+    text-align: left;
+}
+.task__subtasks{
+    margin-top: 8px;
+display: block;
+font-weight: 700;
+font-size: 12px;
+line-height: 15px;  
+color: #828FA3;
+}

@@ -5,16 +5,21 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import "./Board.css";
 
 import Columns from "./Columns";
+import NewTask from "../pages/Home/AddBoard/NewTask";
+import AddBoard from "../pages/Home/AddBoard/AddBoard";
 
-export default function Board({ documents }) {
-console.log(documents)
-
+export default function Board({ boards, uid , tasks}) {
   return (
     <div className="board__wrapper">
-      {documents ? (
+      {boards ? (
         <Routes>
-          <Route path=":id" element={<Columns documents={documents} />} />
-          <Route path="/" element={documents && <Navigate to={`${documents[0].id}`} /> } />
+          <Route path=":id/*" element={<Columns uid={uid} boards={boards} tasks = { tasks } />} />
+          <Route
+            path="/"
+            element={boards && <Navigate to={`${boards[0].id}`} />}
+          />
+          <Route path="newTask" element={<NewTask uid={uid} />} />
+          <Route path="newBoard" element={<AddBoard uid={uid} />} />
         </Routes>
       ) : (
         <section className="board__empty">
