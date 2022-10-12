@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useFirestore } from "../../../hooks/useFirestore";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import produce from "immer";
 
 //styles
 import "./NewTask.css";
@@ -12,14 +13,15 @@ import CloseIcon from "../../../assets/icon-cross.svg";
 export default function NewTask({ boards, uid }) {
   const { addDocument, response } = useFirestore("tasks");
 
-  const [boardName, setBoardName] = useState("");
+  const [currentBoard, setCurrentBoard] = useState(null);
+
+  const [boardId, setBoardId] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [columns, setColumns] = useState([]);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState({ name: "", value: "" });
   const [subtasks, setSubtasks] = useState([]);
-  const maxSubtasks = 3;
-
+  const maxSubtasks = 6;
+ 
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -33,18 +35,21 @@ export default function NewTask({ boards, uid }) {
   };
 
   const handleChangeSubtaskName = (e, id) => {
-    let tempSubtasks = [...subtasks];
-    tempSubtasks.forEach((subtask) => {
-      if (subtask.id === id) {
-        subtask.title = e.target.value;
-        subtask.isCompleted = false;
-      }
-    });
-    setSubtasks(tempSubtasks);
+    setSubtasks(
+      produce(subtasks, (draft) => {
+        draft.forEach((subtask) => {
+          if (subtask.id === id) {
+            subtask.title = e.target.value;
+            subtask.isCompleted = false;
+          }
+        });
+        return draft;
+      })
+    );
   };
 
   const handleSubtaskDelete = (id) => {
-    let tempSubtasks = [...subtasks].filter((subtask) => subtask.id !== id);
+    let tempSubtasks = subtasks.filter((subtask) => subtask.id !== id);
     setSubtasks(tempSubtasks);
   };
 
@@ -54,7 +59,7 @@ export default function NewTask({ boards, uid }) {
       setSubtasks((prevState) => [
         ...prevState,
         {
-          name: "",
+          title: "",
           id,
         },
       ]);
@@ -62,44 +67,49 @@ export default function NewTask({ boards, uid }) {
   };
 
   const handleStatusChange = (e) => {
-    setStatus(e.target.value);
+    setStatus({
+      name: e.target.value,
+      value: e.target.name,
+    });
   };
 
   const handleClose = () => {
     navigate(-1);
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     let newDocument = {
-      boardName,
+      boardId,
       title,
       description,
       status,
       subtasks,
       uid,
     };
+    console.log(newDocument)
+    console.log(currentBoard)
     addDocument(newDocument);
   };
 
-  useEffect(() => {
-    if (boards && id) {
-      let columnNames = [];
-      boards.forEach((doc) => {
-        if (doc.id === id) {
-          setBoardName(doc.name);
-          doc.columns.forEach((column) => {
-            columnNames.push(column.name);
-          });
-        }
+  useEffect(() => {  
+   if (boards && id) {
+     const newBoard = boards.filter((element) => element.id === id)[0];
+     const activeColumns= newBoard.columns.filter(column=>column.active)
+
+      setCurrentBoard(newBoard);
+      setStatus({
+        name: activeColumns[0].name,
+        value: activeColumns[0].value,
       });
-      setColumns(columnNames);
-      setStatus(columnNames[0]);
+      setBoardId(newBoard.id);
     }
 
     if (response.succes) {
-      navigate("/");
+      navigate(-1);
     }
   }, [boards, id, response]);
+  console.log(status)
 
   return (
     <>
@@ -164,16 +174,21 @@ export default function NewTask({ boards, uid }) {
               <p className="newTask__form-button-p">+ Add New Subtask</p>
             </button>
             <select
-              defaultValue={columns[0]}
+              defaultValue={currentBoard && currentBoard.columns[0].name}
+              name={currentBoard && currentBoard.columns[0].value}
               onChange={handleStatusChange}
               className="newBoard__form-select">
-              {columns &&
-                columns.map((column) => {
-                  return (
-                    <option key={column} value={column}>
-                      {column}
-                    </option>
-                  );
+              {currentBoard &&
+                currentBoard.columns.map((column) => {
+                  if (column.active)
+                    return (
+                      <option
+                        key={column.name}
+                        value={column.name}
+                        name={column.value}>
+                        {column.value}
+                      </option>
+                    );
                 })}
             </select>
             <button className="newTask__form-button newTask__form-button--purple">

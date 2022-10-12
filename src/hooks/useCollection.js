@@ -26,7 +26,7 @@ export const useCollection = (collection, _query) => {
         setError(null);
       },
       (error) => {
-        console.log(error);
+        error;
         setError("could not fetch the data");
       }
     );

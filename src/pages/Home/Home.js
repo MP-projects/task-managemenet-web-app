@@ -2,13 +2,8 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useCollection } from "../../hooks/useCollection";
-import {
-  Routes,
-  Route,
-  Navigate,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import produce from "immer";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 //components
 import Menu from "./Menu/Menu";
@@ -19,46 +14,74 @@ import NewTask from "./AddBoard/NewTask";
 
 //styles
 import "./Home.css";
+import { useFirestore } from "../../hooks/useFirestore";
 
 export default function Home() {
   const { user } = useAuthContext();
-  const { documents: dataBoards, error: errorBoards } = useCollection("boards", [
-    "uid",
-    "==",
-    user.uid,
-  ]);
+  const { documents: dataBoards, error: errorBoards } = useCollection(
+    "boards",
+    ["uid", "==", user.uid]
+  );
   const { documents: dataTasks, error: errorTasks } = useCollection("tasks", [
     "uid",
     "==",
     user.uid,
   ]);
+  const { documents: userData, error: errorUserData } = useCollection(
+    "userData",
+    ["uid", "==", user.uid]
+  );
+  const { documents: exampleBoards, error: errorExampleBoards } = useCollection(
+    "boards",
+    ["uid", "==", "4PfvxJhCVkMsUuwHgoVSlYoENir1"]
+  );
+  const { documents: exampleTasks, error: errorExampleTasks } = useCollection(
+    "tasks",
+    ["uid", "==", "4PfvxJhCVkMsUuwHgoVSlYoENir1"]
+  );
+
+const {addDocument:addDocumentUserData}= useFirestore("userData")
+
   const [boards, setboards] = useState(null);
-  const [tasks, setTasks] = useState(null)
-  
+  const [tasks, setTasks] = useState(null);
+  const [currentUserData, setCurrentUserData] = useState("");
 
   useEffect(() => {
     if (dataBoards) {
-      const boards = dataBoards.sort((a, b) => {
-        return a.createdAt - b.createdAt;
+      const boards = produce(dataBoards, (draft) => {
+        draft.sort((a, b) => {
+          return a.createdAt - b.createdAt;
+        });
       });
 
       setboards(boards);
     }
     if (dataTasks) {
-      const tasks = dataTasks.sort((a, b) => {
-        return a.createdAt - b.createdAt;
+      const tasks = produce(dataTasks, (draft) => {
+        draft.sort((a, b) => {
+          return a.createdAt - b.createdAt;
+        });
       });
 
       setTasks(tasks);
     }
-  }, [dataBoards, dataTasks]);
- 
+
+    if (userData) {
+      setCurrentUserData(userData);
+    }
+  }, [dataBoards, dataTasks, userData]);
+
 
   return (
     <>
       <Menu uid={user.uid} boards={boards} tasks={tasks} />
       <div className="home wrapper">
-        <Navbar uid={user.uid} boards={boards} tasks={tasks} />
+        <Navbar
+          uid={user.uid}
+          boards={boards}
+          tasks={tasks}
+          userData={currentUserData}
+        />
         {(!boards || boards.length === 0) && <EmptyBoard />}
 
         <Routes>
@@ -72,7 +95,7 @@ export default function Home() {
             path="boards/*"
             element={
               boards && boards.length > 0 ? (
-                <Board uid={user.uid} boards={boards} tasks={tasks} />
+                <Board uid={user.uid} boards={boards && boards} tasks={tasks} />
               ) : (
                 <Navigate to="/" />
               )

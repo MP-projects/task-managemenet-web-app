@@ -1,0 +1,114 @@
+.editBoard{
+    width: 480px;
+    min-height: 440px;
+    position: absolute;
+    left: 50%;
+    top: 35%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 6px;
+    z-index: 1;
+
+}
+
+.editBoard__close-wrapper{
+        width: 100%;
+        display: flex;
+        justify-content:flex-end;
+}
+.editBoard__close-button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 15px 30px 0 ;
+    
+
+}
+.editBoard__close-img{
+    width: 15px; 
+    filter: invert(44%) sepia(82%) saturate(455%) hue-rotate(203deg) brightness(79%) contrast(97%)
+}
+
+.editBoard__form{
+    min-height: 440px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.editBoard__form-h2{
+    align-self: flex-start;
+    margin-left: 40px;
+    margin-top: 32px;
+    margin-bottom: 40px;
+    font-weight: 700;
+font-size: 18px;
+line-height: 23px;
+}
+.editBoard__form-wrapper{
+   width: 400px;
+   margin: 0;
+   display: flex;
+   flex-direction: column; 
+}
+.editBoard__form-span{
+    display: block;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 15px;  
+    color: #828FA3;
+}
+.editBoard__form-input-wrapper{
+    display: flex;
+}
+.editBoard__form-select{
+    margin: 12px 0;
+    width: 100%;
+    height: 40px;
+    border: 1px solid rgba(130, 143, 163, 0.25);
+    border-radius: 4px;
+}
+.editBoard__form-input{
+    width: 100%;
+    height: 40px;
+    margin: 12px 0;
+    border: 1px solid rgba(130, 143, 163, 0.25);
+border-radius: 4px;
+text-align: left;
+line-height: 40px;
+padding-left: 10px;
+font-size: 13px;
+font-weight: 500;
+}
+.editBoard__form-column-delete{
+    width: 5%;
+}
+
+.editBoard__form-button{
+    width: 100%;
+    height: 40px;
+    margin: 12px 0;
+    border-radius: 20px;
+    color: white;
+    background-color: cadetblue;
+}
+.editBoard__form-button--light-purple{
+    color: #635FC7;
+ background-color: rgba(99, 95, 199, 0.1);  
+}
+.editBoard__form-button--purple{
+    background-color: #635FC7;
+}
+.editBoard__form-button-p{
+    font-weight: 700;
+font-size: 13px;
+line-height: 23px;
+}
+
+.editBoard__form-alert{
+    margin-top: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    color: red;
+}

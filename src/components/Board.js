@@ -8,7 +8,8 @@ import Columns from "./Columns";
 import NewTask from "../pages/Home/AddBoard/NewTask";
 import AddBoard from "../pages/Home/AddBoard/AddBoard";
 
-export default function Board({ boards, uid , tasks}) {
+export default function Board({ boards, uid, tasks }) {
+ 
   return (
     <div className="board__wrapper">
       {boards ? (
@@ -19,7 +20,7 @@ export default function Board({ boards, uid , tasks}) {
             element={boards && <Navigate to={`${boards[0].id}`} />}
           />
           <Route path="newTask" element={<NewTask uid={uid} />} />
-          <Route path="newBoard" element={<AddBoard uid={uid} />} />
+          <Route path="newBoard" element={<AddBoard uid={uid} boards={boards} />} />
         </Routes>
       ) : (
         <section className="board__empty">

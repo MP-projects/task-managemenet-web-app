@@ -15,10 +15,10 @@ export const useLogout = () => {
 
     try {
       // sign out
-     await projectAuth.signOut();
+      await projectAuth.signOut();
 
       // dispatch login action
-      dispatch({ type: "LOGOUT"});
+      dispatch({ type: "LOGOUT" });
 
       //update state
       if (!isCancelled) {
@@ -27,10 +27,9 @@ export const useLogout = () => {
       }
     } catch (err) {
       if (!isCancelled) {
-        console.log(err.message);
+        err.message;
         setError(err.message);
         setIsPending(false);
-    
       }
     }
   };

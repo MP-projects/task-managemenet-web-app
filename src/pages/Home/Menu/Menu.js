@@ -25,7 +25,7 @@ import CreateBoard from "./CreateBoard";
 import AddBoard from "../AddBoard/AddBoard";
 import NewTask from "../AddBoard/NewTask";
 
-export default function Menu({ uid, boards }) {
+export default function Menu({ uid, boards, tasks }) {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -46,7 +46,12 @@ export default function Menu({ uid, boards }) {
           {boards &&
             boards.map((doc) => {
               return (
-                <BoardButton key={doc.id} doc={doc} boardName={doc.name} />
+                <BoardButton
+                  key={doc.id}
+                  doc={doc}
+                  boardId={doc.id}
+                  tasks={tasks}
+                />
               );
             })}
           <CreateBoard handleCreateBoard={handleCreateBoard} />

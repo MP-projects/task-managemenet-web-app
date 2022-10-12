@@ -1,12 +1,13 @@
 import React from "react";
-
+import { Routes, Route } from "react-router-dom";
 //components
 import Task from "./Task";
+import TaskView from "./TaskView";
 //styles
 
 import "./SingleColumn.css";
 
-export default function SingleColumn({ name, tasks, currentColumns }) {
+export default function SingleColumn({ column, tasks }) {
   const columnStyle = (name) => {
     let color;
     switch (name) {
@@ -25,20 +26,24 @@ export default function SingleColumn({ name, tasks, currentColumns }) {
 
     return { backgroundColor: color };
   };
-console.log(tasks)
+
   return (
+    
     <section className={`singleColumn`}>
       <h2 className="singleColumn__title">
-        <div className="singleColumn__circle" style={columnStyle(name)}></div>
-        {`${name}(${tasks.length})`}
+        <div className="singleColumn__circle" style={columnStyle(column.name)}></div>
+        {(column&&tasks) &&`${column.value}(${tasks.length})`}
       </h2>
       <div className="singleColumn__task-wrapper">
         {tasks &&
           tasks.map((task) => {
-            return(
-            <Task key={task.id} task={task} currentColumns={currentColumns} />)
+            return (
+              <Task key={task.id} task={task} />
+            );
           })}
       </div>
-    </section>
+      </section>
+
+      
   );
 }

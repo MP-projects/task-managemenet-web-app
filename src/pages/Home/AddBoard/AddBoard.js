@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useFirestore } from "../../../hooks/useFirestore";
+import produce from "immer";
 
 //styles
 import "./AddBoard.css";
@@ -8,12 +9,21 @@ import "./AddBoard.css";
 //assets
 import CloseIcon from "../../../assets/icon-cross.svg";
 
-export default function AddBoard({ uid }) {
+export default function AddBoard({ uid, boards }) {
   const initialState = ["Todo", "Doing", "Done", "Custom"];
+
+  const [currentBoards, setCurrentBoards] = useState(boards);
+  const initialColumns = [
+    { active: false, name: "Todo", value: "Todo" },
+    { active: false, name: "Doing", value: "Doing" },
+    { active: false, name: "Done", value: "Done" },
+    { active: false, name: "Custom", value: "Custom" },
+  ];
+
   const [option, setOption] = useState("");
-  const [columns, setColumns] = useState([]);
-  const [customValue, setCustomValue] = useState("Custom");
-  const [nameValue, setNameValue] = useState("");
+  const [columns, setColumns] = useState(initialColumns);
+
+  const [name, setName] = useState("");
   const [isColumn, setIsColumn] = useState(true);
   const [isSelected, setIsSelected] = useState(false);
   const [allColumns, setAllColumns] = useState(false);
@@ -22,94 +32,81 @@ export default function AddBoard({ uid }) {
 
   //firestore
   const { addDocument, response } = useFirestore("boards");
-
   const navigate = useNavigate();
+  const params = useParams();
 
   const handleNameChange = (e) => {
-    setNameValue(e.target.value);
-    if (nameValue) {
+    if (name.length < 50) {
+      setName(e.target.value);
+    }
+    if (name) {
       setIsName(true);
     }
-    if (nameValue.length > 1) {
+    if (name.length > 1) {
       setIsShort(false);
     }
   };
 
-  const handleColumnDelete = (columnName) => {
-    const newColumns = columns.filter((column) => column !== columnName);
+  const handleColumnsChange = (e, column) => {
+    const newColumns = produce(columns, (draft) => {
+      draft.forEach((element) => {
+        if (element.name === column.name) {
+          element.value = e.target.value;
+        }
+      });
+    });
     setColumns(newColumns);
-    if (columnName === "Custom") {
-      setCustomValue("Custom");
-    }
+  };
 
-    if (newColumns.length === 0) {
-      setIsColumn(false);
-      setIsSelected(false);
-      setAllColumns(false);
-    } else {
-      setIsColumn(true);
-      setAllColumns(false);
-    }
+  const handleColumnDelete = (columnName) => {
+    const newColumns = produce(columns, (draft) => {
+      draft.forEach((element) => {
+        if (element.name === columnName) element.active = false;
+      });
+    });
+    setColumns(newColumns);
   };
 
   const handleAddColumn = () => {
-    let columnsArray = [...columns];
-    let newColumns = [];
-
-    if (columnsArray.length === initialState.length) {
+    const activeColumns = columns.filter((element) => element.active);
+    if (activeColumns.length === initialState.length) {
       setAllColumns(true);
     } else {
       setAllColumns(false);
     }
 
-    if (option !== "" && !columnsArray.includes(option)) {
-      if (option === "All Columns") {
-        columnsArray = [...initialState];
-        setIsSelected(false);
-        setIsColumn(true);
-      } else {
-        columnsArray.push(option);
-        setIsSelected(false);
-        setIsColumn(true);
-      }
-    } else setIsSelected(true);
-    if (columnsArray.length === initialState.length) {
-      setIsSelected(false);
-    }
-    for (let i = 0; i < initialState.length; i++) {
-      columnsArray.forEach((element) => {
-        if (element === initialState[i]) {
-          newColumns.push(element);
-        }
+    if (option !== "" && option !== "All Columns") {
+      const newColumns = produce(columns, (draft) => {
+        draft.forEach((element) => {
+          if (element.name === option) {
+            element.active = true;
+          }
+        });
       });
+      setColumns(newColumns);
+    } else if (option === "All Columns") {
+      const newColumns = produce(columns, (draft) => {
+        draft.forEach((element) => {
+          element.active = true;
+        });
+      });
+      setColumns(newColumns);
     }
-    setColumns(newColumns);
   };
 
   const createNewDocument = () => {
-    let newColumns = [...columns];
-
     let newDocument = {
-      name: nameValue,
-      columns: [],
+      name,
+      columns: columns,
+      uid,
     };
-
-    for (let i = 0; i < newColumns.length; i++) {
-      if (newColumns[i] === "Custom") {
-        newColumns[i] = customValue;
-      }
-      newDocument.columns.push({ name: newColumns[i] });
-    }
-
-    newDocument["uid"] = uid;
-
     return newDocument;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (nameValue) {
-      if (nameValue.length >= 3) {
+    if (name) {
+      if (name.length >= 3) {
         if (columns.length > 0) {
           const newDocument = createNewDocument();
           addDocument(newDocument);
@@ -130,17 +127,26 @@ export default function AddBoard({ uid }) {
 
   useEffect(() => {
     if (response.succes) {
-      navigate("/");
+      if (boards) {
+        const sortedBoards = produce(boards, (draft) => {
+          draft.sort((a, b) => {
+            return b.createdAt - a.createdAt;
+          });
+        });
+        navigate(`/home/boards/${sortedBoards[0].id}`, { replace: true });
+      } else {
+        navigate(-1);
+      }
     }
-  }, [response.succes, navigate]);
+  }, [response.succes, boards]);
 
   return (
     <>
       <div className="background-color"></div>
       <section className="newBoard">
-          <button className="newBoard__close-button" onClick={closeAddBoard}>
-            <img src={CloseIcon} alt="close" className="newBoard__close-img" />
-          </button> 
+        <button className="newBoard__close-button" onClick={closeAddBoard}>
+          <img src={CloseIcon} alt="close" className="newBoard__close-img" />
+        </button>
         <form onSubmit={handleSubmit} className="newBoard__form">
           <h2 className="newBoard__form-h2">Create New Board</h2>
           <div className="newBoard__form-wrapper">
@@ -149,7 +155,7 @@ export default function AddBoard({ uid }) {
               placeholder="e.g. Web Design"
               type="text"
               className="newBoard__form-input"
-              value={nameValue}
+              value={name}
               onChange={(e) => handleNameChange(e)}
             />
           </div>
@@ -161,12 +167,12 @@ export default function AddBoard({ uid }) {
               defaultValue={""}
               onChange={(e) => e.target.value && setOption(e.target.value)}>
               <option value="">Choose column</option>
-              {initialState &&
-                initialState.map((item) => {
-                  if (!columns.includes(item))
+              {columns &&
+                columns.map((item) => {
+                  if (item.active === false)
                     return (
-                      <option key={item} value={item}>
-                        {item}
+                      <option key={item.name} value={item.name}>
+                        {item.name}
                       </option>
                     );
                 })}
@@ -174,37 +180,28 @@ export default function AddBoard({ uid }) {
             </select>
 
             {columns &&
-              columns.map((columnName) => {
-                if (columnName !== "All Columns")
-                  return (
-                    <div
-                      key={columnName}
-                      className="newBoard__form-input-wrapper">
-                      <input
-                        className="newBoard__form-input"
-                        defaultValue={
-                          columnName === "Custom" ? undefined : columnName
-                        }
-                        disabled={columnName === "Custom" ? false : true}
-                        value={
-                          columnName === "Custom" ? customValue : undefined
-                        }
-                        onChange={
-                          columnName === "Custom"
-                            ? (e) => setCustomValue(e.target.value)
-                            : undefined
-                        }
-                      />
-
-                      <button
-                        onClick={() => {
-                          handleColumnDelete(columnName);
-                        }}
-                        className="newBoard__form-column-delete">
-                        X
-                      </button>
-                    </div>
-                  );
+              columns.map((column) => {
+                if (column.value !== "All Columns")
+                  if (column.active === true)
+                    return (
+                      <div
+                        key={column.name}
+                        className="newBoard__form-input-wrapper">
+                        <input
+                          className="newBoard__form-input"
+                          value={column.value}
+                          onChange={(e) => handleColumnsChange(e, column)}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            handleColumnDelete(column.name);
+                          }}
+                          className="newBoard__form-column-delete">
+                          X
+                        </button>
+                      </div>
+                    );
               })}
 
             {!isColumn && (
