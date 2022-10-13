@@ -60,12 +60,12 @@ line-height: 23px;
 }
 .taskView__form-wrapper{
    width: 400px;
-   margin: 0;
+   margin-bottom: 12px;
    display: flex;
    flex-direction: column; 
 }
 .taskView__form-wrapper--title{
-margin: 32px 0 40px;
+margin: 32px 0 0px;
     flex-direction: row;
 }
 .taskView__form-wrapper--subtasks{
@@ -82,6 +82,15 @@ margin-bottom: 24px;
    line-height: 23px;
    color: #828FA3;
 }
+.taskView__form-span-wrapper{
+    
+    width: 400px;
+    margin-top:12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
 .taskView__form-span{
     display: block;
     font-weight: 700;
@@ -91,7 +100,11 @@ margin-bottom: 24px;
 }
 
 .taskView__form-span--margin{
-    margin: 12px 0;
+    margin: 4px 0;
+    font-size: 12px;
+    align-self: flex-end;
+    opacity: 0.8;
+    font-size: 11px;
 }
 .taskView__form-span--checked{
     text-decoration-line: line-through;
@@ -207,7 +220,12 @@ line-height: 23px;
 .taskView__form-column-delete{
     width: 5%;
 }
-
+.taskView__form-buttons-wrapper{
+    width: 400px;
+   margin: 24px 0 32px;
+    display: flex;
+    justify-content: space-between;
+}
 .taskView__form-button{
     width: 100%;
     height: 40px;
@@ -220,9 +238,26 @@ line-height: 23px;
     color: #635FC7;
  background-color: rgba(99, 95, 199, 0.1);  
 }
+.taskView__form-button--light-purple:hover{
+    background-color:rgba(99, 95, 199, 0.25);
+     
+}
 .taskView__form-button--purple{
     background-color: #635FC7;
+    margin-left: 8px;
 }
+.taskView__form-button--purple:hover{
+    background-color: #A8A4FF;
+}
+.taskView__form-button--delete{
+    background-color: #EA5555;
+    margin-right: 8px;
+   
+}
+.taskView__form-button--delete:hover{
+    background-color: #FF9898;
+}
+
 .taskView__form-button-p{
     font-weight: 700;
 font-size: 13px;

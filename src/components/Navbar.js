@@ -156,16 +156,16 @@ export default function Navbar({ boards, tasks, userData, uid }) {
         </button>
         {currentUserData && currentUserData.example ? (
           <button className="btn" onClick={() => handleExampleData(false)}>
-            remove example data
+            turn off example data
           </button>
         ) : (
           <button className="btn" onClick={() => handleExampleData(true)}>
-            download example data
+            turn on example data
           </button>
         )}
         {!currentUserData && (
           <button className="btn" onClick={() => handleExampleData(true)}>
-            download example data
+            turn on example data
           </button>
         )}
         <button onClick={handleNewTask} className="navabar__new-task-button">

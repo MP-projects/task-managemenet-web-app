@@ -10,6 +10,9 @@ import "./EditBoard.css";
 //assets
 import CloseIcon from "../../../assets/icon-cross.svg";
 
+//componenets
+import Delete from "../../../components/Delete";
+
 export default function EditBoard({ uid, boards, tasks }) {
   const initialOptions = ["Todo", "Doing", "Done", "Custom"];
 
@@ -30,11 +33,32 @@ export default function EditBoard({ uid, boards, tasks }) {
 
   const [option, setOption] = useState(initialOptions);
 
+  const [isDelete, setIsDelete] = useState(false);
+
   const navigate = useNavigate();
   const { id } = useParams();
 
   const closeEditBoard = () => {
     navigate(-1);
+  };
+
+  const boardDeleteDescription = `Are you sure you want to delete the ${
+    currentBoard && currentBoard.name
+  } board? This action will remove all columns and tasks and cannot be reversed.`;
+  const elementType = "board";
+
+  const handleDeleteButton = (value) => {
+    setIsDelete(value);
+  };
+
+  const handleDeleteBoard = () => {
+    navigate("/boards", { replace: true });
+    deleteDocumentBoard(currentBoard.id);
+    tasks.forEach((element) => {
+      if (element.boardId === currentBoard.id) {
+        deleteDocumentTask(element.id);
+      }
+    });
   };
 
   const handleColumnDelete = (name) => {
@@ -53,7 +77,7 @@ export default function EditBoard({ uid, boards, tasks }) {
         draft.forEach((element) => {
           if (element.name === option) {
             element.active = true;
-            element.value = element.name
+            element.value = element.name;
             element.isEdited = true;
           }
         });
@@ -65,7 +89,7 @@ export default function EditBoard({ uid, boards, tasks }) {
           if (element.active === false) {
             element.active = true;
             element.isEdited = true;
-            element.value = element.name
+            element.value = element.name;
           }
         });
       });
@@ -86,7 +110,7 @@ export default function EditBoard({ uid, boards, tasks }) {
 
   const createDocument = () => {
     const newBoard = produce(currentBoard, (draft) => {
-      delete draft.id
+      delete draft.id;
       draft.name = name;
       draft.columns = columns;
     });
@@ -103,7 +127,9 @@ export default function EditBoard({ uid, boards, tasks }) {
       return;
     }
 
-    const currentTasks = tasks.filter((task) => task.boardId === currentBoard.id);
+    const currentTasks = tasks.filter(
+      (task) => task.boardId === currentBoard.id
+    );
     const newTasks = produce(currentTasks, (draft) => {
       newBoard.columns.forEach((column) => {
         if (column.active && column.isEdited) {
@@ -124,120 +150,156 @@ export default function EditBoard({ uid, boards, tasks }) {
         }
       });
     });
-    const _newBoard = produce(newBoard, (draft => {
-      draft.columns.forEach(element => {
-        delete element.isEdited
-      })
-    }))
-    setDocumentBoard(_newBoard,currentBoard.id)
+    const _newBoard = produce(newBoard, (draft) => {
+      draft.columns.forEach((element) => {
+        delete element.isEdited;
+      });
+    });
+    setDocumentBoard(_newBoard, currentBoard.id);
     const deletedTasks = newTasks.filter((task) => task.delete === true);
     const updatedTasks = newTasks.filter((task) => task.delete === false);
     deletedTasks.forEach((task) => {
-      deleteDocumentTask(task.id)
-    })
-    updatedTasks.forEach(task => {
+      deleteDocumentTask(task.id);
+    });
+    updatedTasks.forEach((task) => {
       const newTask = produce(task, (draft) => {
-        delete draft.delete
-        delete draft.id
-      })
-      setDocumentTask(newTask,task.id)
-    })
+        delete draft.delete;
+        delete draft.id;
+      });
+      setDocumentTask(newTask, task.id);
+    });
   };
 
   useEffect(() => {
-    if (responseBoard&&responseBoard.succes) {
-        navigate(-1)     
-      } 
-    
+    if (responseBoard && responseBoard.succes) {
+      navigate(-1);
+    }
+
     if (boards) {
       const board = boards.filter((element) => element.id === id)[0];
       setCurrentBoard(board);
       setName(board.name);
       setColumns(board.columns);
     }
-  }, [responseBoard,boards]);
-console.log(responseBoard)
+  }, [responseBoard, boards]);
+  console.log(responseBoard);
 
   return (
     <>
       <div className="background-color"></div>
-      <section className="editBoard">
-        <button className="editBoard__close-button" onClick={closeEditBoard}>
-          <img src={CloseIcon} alt="close" className="editBoard__close-img" />
-        </button>
-        <form onSubmit={handleSubmit} className="editBoard__form">
-          <h2 className="editBoard__form-h2">Edit Board</h2>
-          <div className="editBoard__form-wrapper">
-            <span className="editBoard__form-span">Name</span>
-            <input
-              placeholder="e.g. Web Design"
-              type="text"
-              className="editBoard__form-input"
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            />
-          </div>
-          <div className="editBoard__form-wrapper">
-            <span className="editBoard__form-span">Columns</span>
-            <select
-              className="editBoard__form-select"
-              name="Column name"
-              defaultValue={""}
-              onChange={(e) => e.target.value && setOption(e.target.value)}>
-              <option value="">Choose column</option>
+      {isDelete ? (
+        <Delete
+          handleDeleteButton={handleDeleteButton}
+          handleDeleteElement={handleDeleteBoard}
+          elementType={elementType}
+          text={boardDeleteDescription}
+        />
+      ) : (
+        <section className="editBoard">
+          <button className="editBoard__close-button" onClick={closeEditBoard}>
+            <img src={CloseIcon} alt="close" className="editBoard__close-img" />
+          </button>
+          <form onSubmit={handleSubmit} className="editBoard__form">
+              <h2 className="editBoard__form-h2">Edit board "{currentBoard&&currentBoard.name}"" </h2>
+              <div className="editBoard__form-span-wrapper">
+                {currentBoard && (
+                  <span className="editBoard__form-span editBoard__form-span--margin">
+                    Created:
+                    {new Date(
+                      currentBoard.createdAt.seconds * 1000
+                    ).toLocaleString()}
+                  </span>
+                )}
+                {currentBoard && currentBoard.lastEdited && (
+                  <span className="editBoard__form-span editBoard__form-span--margin">
+                    Last Edited:
+                    {new Date(
+                      currentBoard.lastEdited.seconds * 1000
+                    ).toLocaleString()}
+                  </span>
+                )}
+              </div>
+            <div className="editBoard__form-wrapper">
+              <span className="editBoard__form-span">Name</span>
+              <input
+                placeholder="e.g. Web Design"
+                type="text"
+                className="editBoard__form-input"
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              />
+
+            </div>
+            <div className="editBoard__form-wrapper">
+              <span className="editBoard__form-span">Columns</span>
+              <select
+                className="editBoard__form-select"
+                name="Column name"
+                defaultValue={""}
+                onChange={(e) => e.target.value && setOption(e.target.value)}>
+                <option value="">Choose column</option>
+                {columns &&
+                  columns.map((item) => {
+                    if (item.active === false)
+                      return (
+                        <option key={item.name} value={item.name}>
+                          {item.name}
+                        </option>
+                      );
+                  })}
+                <option value="All Columns">All Columns</option>
+              </select>
+
               {columns &&
-                columns.map((item) => {
-                  if (item.active === false)
-                    return (
-                      <option key={item.name} value={item.name}>
-                        {item.name}
-                      </option>
-                    );
+                columns.map((column) => {
+                  if (column.name !== "All Columns")
+                    if (column.active === true)
+                      return (
+                        <div
+                          key={column.name}
+                          className="editBoard__form-input-wrapper">
+                          <input
+                            className="editBoard__form-input"
+                            value={column.value}
+                            onChange={(e) => handleColumnsChange(e, column)}
+                          />
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              handleColumnDelete(column.name);
+                            }}
+                            className="editBoard__form-column-delete">
+                            X
+                          </button>
+                        </div>
+                      );
                 })}
-              <option value="All Columns">All Columns</option>
-            </select>
-
-            {columns &&
-              columns.map((column) => {
-                if (column.name !== "All Columns")
-                  if (column.active === true)
-                    return (
-                      <div
-                        key={column.name}
-                        className="editBoard__form-input-wrapper">
-                        <input
-                          className="editBoard__form-input"
-                          value={column.value}
-                          onChange={(e) => handleColumnsChange(e, column)}
-                        />
-
-                        <button
-                          type="button"
-                          onClick={() => {
-                            handleColumnDelete(column.name);
-                          }}
-                          className="editBoard__form-column-delete">
-                          X
-                        </button>
-                      </div>
-                    );
-              })}
-          </div>
-          <div className="editBoard__form-wrapper">
-            <button
-              onClick={handleAddColumn}
-              type="button"
-              className="editBoard__form-button editBoard__form-button--light-purple">
-              <p className="editBoard__form-button-p">+ Add New Column</p>
-            </button>
-            <button className="editBoard__form-button editBoard__form-button--purple">
-              <p className="editBoard__form-button-p">Save</p>
-            </button>
-          </div>
-        </form>
-      </section>
+            </div>
+            <div className="editBoard__form-wrapper">
+              <button
+                onClick={handleAddColumn}
+                type="button"
+                className="editBoard__form-button editBoard__form-button--light-purple">
+                <p className="editBoard__form-button-p">+ Add New Column</p>
+              </button>
+              <div className="editBoard__form-buttons-wrapper">
+                <button
+                  onClick={() => handleDeleteButton(true)}
+                  type="button"
+                  className="editBoard__form-button editBoard__form-button--delete">
+                  <p className="editBoard__form-button-p">Delete Board</p>
+                </button>
+                <button className="editBoard__form-button editBoard__form-button--purple">
+                  <p className="editBoard__form-button-p">Save Board</p>
+                </button>
+              </div>
+            </div>
+          </form>
+        </section>
+      )}
     </>
   );
 }
