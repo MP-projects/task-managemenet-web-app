@@ -21,7 +21,7 @@ export default function Task({ task }) {
   
   return (
     <>
-      <Link to={task.id} className="task">
+      <Link draggable= {true} to={task.id} className="task">
         <p className="task__title">{task.title}</p>
         <span className="task__subtasks">
           {`${completedSubtasks.length} of ${task.subtasks.length}`} subtasks

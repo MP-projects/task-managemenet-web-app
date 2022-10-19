@@ -1,13 +1,31 @@
 .columns {
     align-self: flex-start;
     width: 1130px;
-    height: 100%;
+    min-height: 904px;
     margin-bottom: 10px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
 
 }
 
-
+.columns__newColumn{
+    margin: 51px 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(130, 143, 163, 0.05);
+    border-radius: 6px;
+}
+.columns__newColumn-button {
+    width: 100%;
+    height: 30px;
+}
+.columns__newColumn-button-p {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 30px;
+    text-align: center;
+    color: #828FA3;
+}
 
 

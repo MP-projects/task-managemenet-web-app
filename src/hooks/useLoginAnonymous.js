@@ -4,13 +4,13 @@ import { projectAuth } from "../firebase/config";
 import { useAuthContext } from "./useAuthContext";
 import firebase from "firebase";
 
-export const useLogin = (remember = false) => {
+export const useLoginAnonymous = (remember = false) => {
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const { dispatch } = useAuthContext();
   const [isCancelled, setIsCancelled] = useState(false);
 
-  const login = async (email, password) => {
+  const loginAnonymous = async () => {
     setError(null);
     setIsPending(true);
 
@@ -24,9 +24,10 @@ export const useLogin = (remember = false) => {
       else {
         projectAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
       }
-      const res = await projectAuth.signInWithEmailAndPassword(email, password);
+      const res = await projectAuth.signInAnonymously();
      
 
+      await res.user.updateProfile({ displayName :"GUEST" });
       // dispatch login action
       dispatch({ type: "LOGIN", payload: res.user });
 
@@ -48,5 +49,5 @@ export const useLogin = (remember = false) => {
       setIsCancelled(true);
     };
   }, []);
-  return { login, isPending, error };
+  return { loginAnonymous, isPending, error };
 };

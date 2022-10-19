@@ -35,6 +35,10 @@
     
 
 }
+.newBoard__close-button:hover>img{
+opacity: 0.7;
+
+}
 .newBoard__close-img{
     width: 15px; 
     filter: invert(44%) sepia(82%) saturate(455%) hue-rotate(203deg) brightness(79%) contrast(97%)
@@ -94,6 +98,14 @@ font-weight: 500;
 }
 .newBoard__form-column-delete{
     width: 5%;
+    margin-left: 16px;
+}
+
+.newBoard__form-column-delete:hover>img{
+    filter: invert(51%) sepia(64%) saturate(3911%) hue-rotate(330deg) brightness(97%) contrast(88%)
+}
+.newBoard__form-column-delete-img{
+    width: 15px;
 }
 
 .newBoard__form-button{

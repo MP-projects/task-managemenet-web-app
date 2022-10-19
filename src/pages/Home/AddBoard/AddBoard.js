@@ -198,7 +198,7 @@ export default function AddBoard({ uid, boards }) {
                             handleColumnDelete(column.name);
                           }}
                           className="newBoard__form-column-delete">
-                          X
+                         <img className=" newBoard__form-column-delete-img" src={CloseIcon} alt="delete" />
                         </button>
                       </div>
                     );

@@ -45,7 +45,7 @@ export default function EditBoard({ uid, boards, tasks }) {
   const boardDeleteDescription = `Are you sure you want to delete the ${
     currentBoard && currentBoard.name
   } board? This action will remove all columns and tasks and cannot be reversed.`;
-  const elementType = "board";
+  const titleDescription = `Delete this "${currentBoard&&currentBoard.name}" board?`;
 
   const handleDeleteButton = (value) => {
     setIsDelete(value);
@@ -186,21 +186,30 @@ export default function EditBoard({ uid, boards, tasks }) {
 
   return (
     <>
-      <div className="background-color"></div>
       {isDelete ? (
         <Delete
           handleDeleteButton={handleDeleteButton}
           handleDeleteElement={handleDeleteBoard}
-          elementType={elementType}
+          titleDescription={titleDescription}
           text={boardDeleteDescription}
         />
       ) : (
-        <section className="editBoard">
-          <button className="editBoard__close-button" onClick={closeEditBoard}>
-            <img src={CloseIcon} alt="close" className="editBoard__close-img" />
-          </button>
-          <form onSubmit={handleSubmit} className="editBoard__form">
-              <h2 className="editBoard__form-h2">Edit board "{currentBoard&&currentBoard.name}"" </h2>
+        <>
+          <div className="background-color"></div>
+          <section className="editBoard">
+            <button
+              className="editBoard__close-button"
+              onClick={closeEditBoard}>
+              <img
+                src={CloseIcon}
+                alt="close"
+                className="editBoard__close-img"
+              />
+            </button>
+            <form onSubmit={handleSubmit} className="editBoard__form">
+              <h2 className="editBoard__form-h2">
+                Edit board "{currentBoard && currentBoard.name}""{" "}
+              </h2>
               <div className="editBoard__form-span-wrapper">
                 {currentBoard && (
                   <span className="editBoard__form-span editBoard__form-span--margin">
@@ -219,86 +228,86 @@ export default function EditBoard({ uid, boards, tasks }) {
                   </span>
                 )}
               </div>
-            <div className="editBoard__form-wrapper">
-              <span className="editBoard__form-span">Name</span>
-              <input
-                placeholder="e.g. Web Design"
-                type="text"
-                className="editBoard__form-input"
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-              />
-
-            </div>
-            <div className="editBoard__form-wrapper">
-              <span className="editBoard__form-span">Columns</span>
-              <select
-                className="editBoard__form-select"
-                name="Column name"
-                defaultValue={""}
-                onChange={(e) => e.target.value && setOption(e.target.value)}>
-                <option value="">Choose column</option>
-                {columns &&
-                  columns.map((item) => {
-                    if (item.active === false)
-                      return (
-                        <option key={item.name} value={item.name}>
-                          {item.name}
-                        </option>
-                      );
-                  })}
-                <option value="All Columns">All Columns</option>
-              </select>
-
-              {columns &&
-                columns.map((column) => {
-                  if (column.name !== "All Columns")
-                    if (column.active === true)
-                      return (
-                        <div
-                          key={column.name}
-                          className="editBoard__form-input-wrapper">
-                          <input
-                            className="editBoard__form-input"
-                            value={column.value}
-                            onChange={(e) => handleColumnsChange(e, column)}
-                          />
-
-                          <button
-                            type="button"
-                            onClick={() => {
-                              handleColumnDelete(column.name);
-                            }}
-                            className="editBoard__form-column-delete">
-                            X
-                          </button>
-                        </div>
-                      );
-                })}
-            </div>
-            <div className="editBoard__form-wrapper">
-              <button
-                onClick={handleAddColumn}
-                type="button"
-                className="editBoard__form-button editBoard__form-button--light-purple">
-                <p className="editBoard__form-button-p">+ Add New Column</p>
-              </button>
-              <div className="editBoard__form-buttons-wrapper">
-                <button
-                  onClick={() => handleDeleteButton(true)}
-                  type="button"
-                  className="editBoard__form-button editBoard__form-button--delete">
-                  <p className="editBoard__form-button-p">Delete Board</p>
-                </button>
-                <button className="editBoard__form-button editBoard__form-button--purple">
-                  <p className="editBoard__form-button-p">Save Board</p>
-                </button>
+              <div className="editBoard__form-wrapper">
+                <span className="editBoard__form-span">Name</span>
+                <input
+                  placeholder="e.g. Web Design"
+                  type="text"
+                  className="editBoard__form-input"
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                />
               </div>
-            </div>
-          </form>
-        </section>
+              <div className="editBoard__form-wrapper">
+                <span className="editBoard__form-span">Columns</span>
+                <select
+                  className="editBoard__form-select"
+                  name="Column name"
+                  defaultValue={""}
+                  onChange={(e) => e.target.value && setOption(e.target.value)}>
+                  <option value="">Choose column</option>
+                  {columns &&
+                    columns.map((item) => {
+                      if (item.active === false)
+                        return (
+                          <option key={item.name} value={item.name}>
+                            {item.name}
+                          </option>
+                        );
+                    })}
+                  <option value="All Columns">All Columns</option>
+                </select>
+
+                {columns &&
+                  columns.map((column) => {
+                    if (column.name !== "All Columns")
+                      if (column.active === true)
+                        return (
+                          <div
+                            key={column.name}
+                            className="editBoard__form-input-wrapper">
+                            <input
+                              className="editBoard__form-input"
+                              value={column.value}
+                              onChange={(e) => handleColumnsChange(e, column)}
+                            />
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                handleColumnDelete(column.name);
+                              }}
+                              className="editBoard__form-column-delete">
+                               <img className=" editBoard__form-column-delete-img" src={CloseIcon} alt="delete" />
+                            </button>
+                          </div>
+                        );
+                  })}
+              </div>
+              <div className="editBoard__form-wrapper">
+                <button
+                  onClick={handleAddColumn}
+                  type="button"
+                  className="editBoard__form-button editBoard__form-button--light-purple">
+                  <p className="editBoard__form-button-p">+ Add New Column</p>
+                </button>
+                <div className="editBoard__form-buttons-wrapper">
+                  <button
+                    onClick={() => handleDeleteButton(true)}
+                    type="button"
+                    className="editBoard__form-button editBoard__form-button--delete">
+                    <p className="editBoard__form-button-p">Delete Board</p>
+                  </button>
+                  <button className="editBoard__form-button editBoard__form-button--purple">
+                    <p className="editBoard__form-button-p">Save Board</p>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </section>
+        </>
       )}
     </>
   );

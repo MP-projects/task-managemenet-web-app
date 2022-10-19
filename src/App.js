@@ -8,9 +8,11 @@ import produce from "immer";
 
 //components
 import Home from "./pages/Home/Home";
-import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Start from "./pages/Start";
+import Login from "./pages/Login";
+import Board from "./components/Board";
+import Navbar from "./components/Navbar";
+import Menu from "./pages/Home/Menu/Menu";
 
 //style
 import "./App.css";
@@ -104,15 +106,12 @@ function App() {
     <main className="app">
       {/* <button onClick={upload}>upload</button>
       <button onClick={upload2}>upload2</button> */}
-      {authIsReady && (
+      {authIsReady && (       
         <BrowserRouter>
+      
           <Routes>
             <Route
               path="/"
-              element={user ? <Navigate to="/home" /> : <Start />}
-            />
-            <Route
-              path="login"
               element={user ? <Navigate to="/home" /> : <Login />}
             />
             <Route
@@ -128,7 +127,9 @@ function App() {
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </BrowserRouter>
+        
       )}
+      
     </main>
   );
 }

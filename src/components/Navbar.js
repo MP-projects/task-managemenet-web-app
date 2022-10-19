@@ -1,17 +1,20 @@
 import React from "react";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useLogout } from "../hooks/useLogout";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useFirestore } from "../hooks/useFirestore";
-//styles
-import "./Navbar.css";
-//components
-import BoardMenu from "./BoardMenu";
-//images
-import menuIcon from "../assets/icon-vertical-ellipsis.svg";
 import { useEffect } from "react";
 import { useCollection } from "../hooks/useCollection";
 import produce from "immer";
+
+//styles
+import "./Navbar.css";
+
+//components
+import UserMenu from "./UserMenu";
+
+//assets
+import User from "../assets/fontAwesome/circle-user-solid.svg";
 
 export default function Navbar({ boards, tasks, userData, uid }) {
   const { setDocument, addDocument } = useFirestore("userData");
@@ -37,15 +40,22 @@ export default function Navbar({ boards, tasks, userData, uid }) {
   ]);
   const { logout } = useLogout();
 
+  const [currentBoard, setCurrentBoard] = useState(null);
+  const [currentTasks, setCurrentTasks] = useState(null);
+
   const [currentUserData, setCurrentUserData] = useState(null);
 
-  const [isClicked, setIsClicked] = useState(false);
+  const [dataIsClicked, setDataIsClicked] = useState(false);
+  const [menuIsClicked, setMenuIsClicked] = useState(false);
+
   const handleLogout = () => {
     logout();
   };
   const location = useLocation();
   const navigate = useNavigate();
   const params = useParams();
+  const boardId = params["*"].slice(7, 27);
+  
 
   const handleClearData = () => {
     boards.forEach((element) => {
@@ -82,7 +92,7 @@ export default function Navbar({ boards, tasks, userData, uid }) {
       setDocumentTask({ ...element });
     });
 
-    setIsClicked(true);
+    setDataIsClicked(true);
   };
 
   const deleteExampleData = () => {
@@ -114,6 +124,10 @@ export default function Navbar({ boards, tasks, userData, uid }) {
     }
   };
 
+  const handleMenuButton = (value) => {
+    setMenuIsClicked(value);
+  };
+
   useEffect(() => {
     if (userData && userData.length > 0) {
       setCurrentUserData(userData[0]);
@@ -121,7 +135,11 @@ export default function Navbar({ boards, tasks, userData, uid }) {
     if (boards) {
       const _exampleBoards = boards.filter((board) => board.exampleData);
       const _exampleTasks = tasks.filter((task) => task.exampleData);
-      if (isClicked && _exampleBoards.length > 0 && _exampleTasks.length > 0) {
+      if (
+        dataIsClicked &&
+        _exampleBoards.length > 0 &&
+        _exampleTasks.length > 0
+      ) {
         const newExampleTasks = produce(_exampleTasks, (draft) => {
           _exampleBoards.forEach((board) => {
             draft.forEach((task) => {
@@ -135,52 +153,53 @@ export default function Navbar({ boards, tasks, userData, uid }) {
           setDocumentTask({ ...element }, element.id);
         });
 
-        setIsClicked(false);
+        setDataIsClicked(false);
+      }
+
+      if (boardId) {
+        setCurrentBoard(boards.filter((board) => board.id === boardId)[0])
+      }
+      if (tasks&&boardId) {
+        setCurrentTasks(tasks.filter(task=>task.boardId === boardId))
       }
     }
-  }, [isClicked, userData, boards, tasks]);
-
-  console.log(userData);
-
+  }, [dataIsClicked, userData, boards, tasks, boardId]);
+console.log(currentBoard)
   return (
     <nav className="navbar">
+      {menuIsClicked && (
+        <UserMenu
+          boards={boards}
+          menuIsClicked={menuIsClicked}
+          handleMenuButton={handleMenuButton}
+          currentUserData={currentUserData}
+          handleExampleData={handleExampleData}
+          handleLogout={handleLogout}
+          handleClearData={handleClearData}
+        />
+      )}
       <div className="navbar__text-wrapper">
-        <p className="navbar__text">Platform Launch</p>
+        <p className="navbar__text">{currentBoard?currentBoard.name : "Start with creating new board or turn on example data in user menu"}</p>
       </div>
       <div className="navbar__board-menu-wrapper">
-        <button className="btn" onClick={handleLogout}>
-          logout
-        </button>
-        <button className="btn" onClick={handleClearData}>
-          clear data
-        </button>
-        {currentUserData && currentUserData.example ? (
-          <button className="btn" onClick={() => handleExampleData(false)}>
-            turn off example data
-          </button>
-        ) : (
-          <button className="btn" onClick={() => handleExampleData(true)}>
-            turn on example data
-          </button>
-        )}
-        {!currentUserData && (
-          <button className="btn" onClick={() => handleExampleData(true)}>
-            turn on example data
-          </button>
-        )}
-        <button onClick={handleNewTask} className="navabar__new-task-button">
+        <button
+          onClick={handleNewTask}
+          disabled={(boards && boards.length > 0) ? false : true}
+          className={`navabar__new-task-button ${(boards&&boards.length>0) && "navabar__new-task-button--active"}`}>
           <p className="navabr__new-task-text">+ Add new task</p>
         </button>
         <div className="navbar__board-menu">
-          <button className="navbar__board-menu-button">
+          <button
+            onClick={() => handleMenuButton(!menuIsClicked)}
+            className={`navbar__board-menu-button ${
+              menuIsClicked && "navbar__board-menu-button--active"
+            }`}>
             <img
-              src={menuIcon}
+              src={User}
               alt="menu icon"
               className="navbar__board-menu-button-img"
             />
           </button>
-
-          <BoardMenu />
         </div>
       </div>
     </nav>

@@ -44,7 +44,7 @@ export default function TaskView({ tasks, board }) {
   const taskDeleteDescription = `Are you sure you want to delete the ${
     task && task.title
   } task? This action will remove all informations and subtasks and cannot be reversed.`;
-  const elementType = "task";
+  const titleDescription = `Delete this task ?`;
 
   const maxSubtasks = 6;
   const { id } = useParams();
@@ -241,131 +241,153 @@ export default function TaskView({ tasks, board }) {
 
   return (
     <>
-      <div className="background-color"></div>
       {isDelete ? (
         <Delete
           handleDeleteButton={handleDeleteButton}
           handleDeleteElement={handleDeleteTask}
-          elementType={elementType}
+          titleDescription={titleDescription}
           text={taskDeleteDescription}
         />
       ) : (
-        <section className="taskView">
-          <button className="taskView__close-button" onClick={closeTaskView}>
-            <img src={CloseIcon} alt="close" className="taskView__close-img" />
-          </button>
-          <form onSubmit={handleOnSubmit} className="taskView__form">
-            <div className="taskView__form-wrapper taskView__form-wrapper--title">
-              {editTitle ? (
-                <textarea
-                  className="taskView__form-input taskView__form-input--title .taskView__form-input::-webkit-scrollbar"
-                  required={true}
-                  type="text"
-                  maxLength={100}
-                  value={title}
-                  autoFocus
-                  style={{ height: titleHeight }}
-                  onFocus={handleTitleHeight}
-                  onInput={handleTitleHeight}
-                  onChange={handleTitleChange}
-                  onBlur={handleTitleFocusOut}></textarea>
-              ) : (
-                <>
-                  <h2 className="taskView__form-h2">{title && title}</h2>
-                  <button onClick={handleEditTitle} className="edit">
-                    <img className="edit__img" src={Edit} alt="edit" />
-                  </button>
-                </>
-              )}
-            </div>
-            <div className="taskView__form-span-wrapper">
-              {task && (
-                <span className="taskView__form-span taskView__form-span--margin">
-                  Created:
-                  {new Date(task.createdAt.seconds * 1000).toLocaleDateString()}
-                </span>
-              )}
-              {task && task.lastEdited && (
-                <span className="taskView__form-span taskView__form-span--margin">
-                  Edited:
-                  {new Date(
-                    task.lastEdited.seconds * 1000
-                  ).toLocaleDateString()}
-                </span>
-              )}
-            </div>
+        <>
+          <div className="background-color"></div>
+          <section className="taskView">
+            <button className="taskView__close-button" onClick={closeTaskView}>
+              <img
+                src={CloseIcon}
+                alt="close"
+                className="taskView__close-img"
+              />
+            </button>
+            <form onSubmit={handleOnSubmit} className="taskView__form">
+              <div className="taskView__form-wrapper taskView__form-wrapper--title">
+                {editTitle ? (
+                  <textarea
+                    className="taskView__form-input taskView__form-input--title .taskView__form-input::-webkit-scrollbar"
+                    required={true}
+                    type="text"
+                    maxLength={100}
+                    value={title}
+                    autoFocus
+                    style={{ height: titleHeight }}
+                    onFocus={handleTitleHeight}
+                    onInput={handleTitleHeight}
+                    onChange={handleTitleChange}
+                    onBlur={handleTitleFocusOut}></textarea>
+                ) : (
+                  <>
+                    <h2 className="taskView__form-h2">{title && title}</h2>
+                    <button onClick={handleEditTitle} className="edit">
+                      <img className="edit__img" src={Edit} alt="edit" />
+                    </button>
+                  </>
+                )}
+              </div>
+              <div className="taskView__form-span-wrapper">
+                {task && (
+                  <span className="taskView__form-span taskView__form-span--margin">
+                    Created:
+                    {new Date(
+                      task.createdAt.seconds * 1000
+                    ).toLocaleDateString()}
+                  </span>
+                )}
+                {task && task.lastEdited && (
+                  <span className="taskView__form-span taskView__form-span--margin">
+                    Edited:
+                    {new Date(
+                      task.lastEdited.seconds * 1000
+                    ).toLocaleDateString()}
+                  </span>
+                )}
+              </div>
 
-            <div className="taskView__form-wrapper">
-              <span className="taskView__form-span">Description</span>
-              {editDescription ? (
-                <textarea
-                  className="taskView__form-input taskView__form-input--description .taskView__form-input::-webkit-scrollbar"
-                  rows="1"
-                  type="text"
-                  value={description}
-                  autoFocus
-                  maxLength={250}
-                  style={{ height: descriptionHeight }}
-                  onChange={handleDescriptionChange}
-                  onFocus={handleDescriptionHeight}
-                  onInput={handleDescriptionHeight}
-                  onBlur={handleDescriptionFocusOut}></textarea>
-              ) : (
-                <div className="taskView__form-subtask-wrapper">
-                  <p className="taskView__form-description">
-                    {description && description}
-                  </p>
-                  <button
-                    onClick={handleEditDescription}
-                    className="edit edit--description">
-                    <img className="edit__img" src={Edit} alt="edit" />
-                  </button>
-                </div>
-              )}
-            </div>
-            <div className="taskView__form-wrapper taskView__form-wrapper--subtasks">
-              <span className="taskView__form-span">{`Subtasks (${
-                completedSubtasks.length
-              } of ${subtasks && subtasks.length})`}</span>
-              {subtasks &&
-                sortByDate(subtasks).map((subtask) => {
-                  return (
-                    <div
-                      key={subtask.id}
-                      className="taskView__form-subtask-wrapper">
-                      <label
-                        ref={subtask.isEdited ? ref : null}
-                        className={`taskView__label`}>
-                        <input
-                          className={`taskView__form-input-checkbox taskView__form-input-checkbox--subtask `}
-                          type="checkbox"
-                          onChange={(e) =>
-                            handleSubtaskChange(e, subtask.id, subtask)
-                          }
-                          checked={subtask.isCompleted ? true : false}
-                        />
+              <div className="taskView__form-wrapper">
+                <span className="taskView__form-span">Description</span>
+                {editDescription ? (
+                  <textarea
+                    className="taskView__form-input taskView__form-input--description .taskView__form-input::-webkit-scrollbar"
+                    rows="1"
+                    type="text"
+                    value={description}
+                    autoFocus
+                    maxLength={250}
+                    style={{ height: descriptionHeight }}
+                    onChange={handleDescriptionChange}
+                    onFocus={handleDescriptionHeight}
+                    onInput={handleDescriptionHeight}
+                    onBlur={handleDescriptionFocusOut}></textarea>
+                ) : (
+                  <div className="taskView__form-subtask-wrapper">
+                    <p className="taskView__form-description">
+                      {description && description}
+                    </p>
+                    <button
+                      onClick={handleEditDescription}
+                      className="edit edit--description">
+                      <img className="edit__img" src={Edit} alt="edit" />
+                    </button>
+                  </div>
+                )}
+              </div>
+              <div className="taskView__form-wrapper taskView__form-wrapper--subtasks">
+                <span className="taskView__form-span">{`Subtasks (${
+                  completedSubtasks.length
+                } of ${subtasks && subtasks.length})`}</span>
+                {subtasks &&
+                  sortByDate(subtasks).map((subtask) => {
+                    return (
+                      <div
+                        key={subtask.id}
+                        className="taskView__form-subtask-wrapper">
+                        <label
+                          ref={subtask.isEdited ? ref : null}
+                          className={`taskView__label`}>
+                          <input
+                            className={`taskView__form-input-checkbox taskView__form-input-checkbox--subtask `}
+                            type="checkbox"
+                            onChange={(e) =>
+                              handleSubtaskChange(e, subtask.id, subtask)
+                            }
+                            checked={subtask.isCompleted ? true : false}
+                          />
 
-                        {!subtask.isEdited ? (
+                          {!subtask.isEdited ? (
+                            <>
+                              <span
+                                className={`taskView__form-span taskView__form-span--checked ${
+                                  !subtask.isCompleted &&
+                                  "taskView__form-span--unchecked"
+                                }`}>
+                                {subtask.title}
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <textarea
+                                className="taskView__form-input taskView__form-input--subtask .taskView__form-input::-webkit-scrollbar"
+                                maxLength={150}
+                                value={subtask.title}
+                                onChange={(e) =>
+                                  handleSubtaskTitleChange(e, subtask.id)
+                                }
+                                autoFocus
+                              />
+                              <button
+                                onClick={() => handleDeleteSubtask(subtask.id)}
+                                className={`edit edit--delete-subtask `}>
+                                <img
+                                  className="edit__img"
+                                  src={Trash}
+                                  alt="edit"
+                                />
+                              </button>
+                            </>
+                          )}
+                        </label>
+                        {!subtask.isEdited && (
                           <>
-                            <span
-                              className={`taskView__form-span taskView__form-span--checked ${
-                                !subtask.isCompleted &&
-                                "taskView__form-span--unchecked"
-                              }`}>
-                              {subtask.title}
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <textarea
-                              className="taskView__form-input taskView__form-input--subtask .taskView__form-input::-webkit-scrollbar"
-                              maxLength={150}
-                              value={subtask.title}
-                              onChange={(e) =>
-                                handleSubtaskTitleChange(e, subtask.id)
-                              }
-                              autoFocus
-                            />
+                            {" "}
                             <button
                               onClick={() => handleDeleteSubtask(subtask.id)}
                               className={`edit edit--delete-subtask `}>
@@ -375,77 +397,71 @@ export default function TaskView({ tasks, board }) {
                                 alt="edit"
                               />
                             </button>
+                            <button
+                              onClick={(e) => handleEditSubtask(e, subtask.id)}
+                              className={`edit edit--description `}>
+                              <img
+                                className="edit__img"
+                                src={Edit}
+                                alt="edit"
+                              />
+                            </button>
                           </>
                         )}
-                      </label>
-                      {!subtask.isEdited && (
-                        <>
-                          {" "}
-                          <button
-                            onClick={() => handleDeleteSubtask(subtask.id)}
-                            className={`edit edit--delete-subtask `}>
-                            <img className="edit__img" src={Trash} alt="edit" />
-                          </button>
-                          <button
-                            onClick={(e) => handleEditSubtask(e, subtask.id)}
-                            className={`edit edit--description `}>
-                            <img className="edit__img" src={Edit} alt="edit" />
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  );
-                })}
-              <button
-                onClick={handleAddNewSubtask}
-                type="button"
-                className="taskView__form-button taskView__form-button--light-purple">
-                <p className="taskView__form-button-p">Add new Subtask</p>
-              </button>
-            </div>
-            <div className="taskView__form-wrapper">
-              <span className="taskView__form-span"> Current Status</span>
-              <div className="taskView__form-input-wrapper">
-                {board &&
-                  board.columns.map((column) => {
-                    if (column.active)
-                      return (
-                        <div
-                          key={column.name}
-                          className="taskView__form-checkbox-wrapper">
-                          <label className="taskView__label">
-                            <input
-                              className="taskView__form-input-checkbox"
-                              type="checkbox"
-                              value={column.name}
-                              name={column.name}
-                              checked={
-                                statusValue === column.name ? true : false
-                              }
-                              onChange={handleStatusChange}
-                            />
-                            <span className="taskView__form-input-label">
-                              {column.value}
-                            </span>
-                          </label>
-                        </div>
-                      );
+                      </div>
+                    );
                   })}
+                <button
+                  onClick={handleAddNewSubtask}
+                  type="button"
+                  className="taskView__form-button taskView__form-button--light-purple">
+                  <p className="taskView__form-button-p">Add new Subtask</p>
+                </button>
               </div>
-            </div>
-            <div className="taskView__form-buttons-wrapper">
-              <button
-                onClick={() => handleDeleteButton(true)}
-                type="button"
-                className="taskView__form-button taskView__form-button--delete">
-                <p className="taskView__form-button-p">Delete Task</p>
-              </button>
-              <button className="taskView__form-button taskView__form-button--purple">
-                <p className="taskView__form-button-p">Save Task</p>
-              </button>
-            </div>
-          </form>
-        </section>
+              <div className="taskView__form-wrapper">
+                <span className="taskView__form-span"> Current Status</span>
+                <div className="taskView__form-input-wrapper">
+                  {board &&
+                    board.columns.map((column) => {
+                      if (column.active)
+                        return (
+                          <div
+                            key={column.name}
+                            className="taskView__form-checkbox-wrapper">
+                            <label className="taskView__label">
+                              <input
+                                className="taskView__form-input-checkbox"
+                                type="checkbox"
+                                value={column.name}
+                                name={column.name}
+                                checked={
+                                  statusValue === column.name ? true : false
+                                }
+                                onChange={handleStatusChange}
+                              />
+                              <span className="taskView__form-input-label">
+                                {column.value}
+                              </span>
+                            </label>
+                          </div>
+                        );
+                    })}
+                </div>
+              </div>
+              <div className="taskView__form-buttons-wrapper">
+                <button
+                  onClick={() => handleDeleteButton(true)}
+                  type="button"
+                  className="taskView__form-button taskView__form-button--delete">
+                  <p className="taskView__form-button-p">Delete Task</p>
+                </button>
+                <button className="taskView__form-button taskView__form-button--purple">
+                  <p className="taskView__form-button-p">Save Task</p>
+                </button>
+              </div>
+            </form>
+          </section>
+        </>
       )}
     </>
   );

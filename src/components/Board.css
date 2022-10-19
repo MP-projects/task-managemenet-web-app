@@ -1,9 +1,9 @@
 .board__wrapper{
     width: 100%;
-    height: 680px;
+    min-height: 904px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 .board__empty{

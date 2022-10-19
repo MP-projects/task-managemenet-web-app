@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, Routes, Route } from "react-router-dom";
+import { useFirestore } from "../hooks/useFirestore";
 import produce from "immer";
 
 //styles
@@ -18,11 +19,35 @@ export default function Columns({ boards, uid, tasks }) {
   const { id } = useParams();
   const [currentBoards, setCurrentBoards] = useState(null);
   const [currentTasks, setCurrentTasks] = useState(null);
+  const [notActiveColumns, setNotActiveColumns] = useState(null)
+
+  const {setDocument} = useFirestore("boards")
+
+  const handleAddColumn = () => {
+    const newBoard = produce(currentBoards, (draft) => {
+      draft.columns.forEach((element) => {
+        if (element.name === notActiveColumns[0].name) {
+          element.active = true
+        }
+      })
+    })
+    setDocument(newBoard, newBoard.id)
+  }
 
   useEffect(() => {
     if (boards && id) {
+      
       const newBoard = boards.filter((board) => board.id === id)[0];
       setCurrentBoards(newBoard);
+      const _notActiveColumns = newBoard.columns.filter(column => column.active === false)
+      
+      if (_notActiveColumns.length > 0) {
+      
+        setNotActiveColumns(_notActiveColumns)       
+      }
+      else {
+        setNotActiveColumns(null)  
+      }
 
       if (tasks) {
         const newTasks = tasks.filter((task) => task.boardId === newBoard.id);
@@ -30,8 +55,8 @@ export default function Columns({ boards, uid, tasks }) {
       }
     }
   }, [id, boards, tasks]);
-
-
+console.log(currentBoards)
+console.log(notActiveColumns)
   return (
     <>
       <div className="columns">
@@ -47,6 +72,11 @@ export default function Columns({ boards, uid, tasks }) {
                 <SingleColumn key={column.name} column={column} tasks={tasks} />
               );
           })}
+        {notActiveColumns && <section className="columns__newColumn">
+          <button onClick={handleAddColumn} className="columns__newColumn-button">
+            <p className="columns__newColumn-button-p">+ New column</p>
+          </button>
+        </section>}
       </div>
       <Routes>
         <Route

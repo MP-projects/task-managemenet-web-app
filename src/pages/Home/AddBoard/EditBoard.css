@@ -22,11 +22,15 @@
     right: 0;
     margin: 15px 30px 0 ;
     
+}
+.editBoard__close-button:hover>img{
+ opacity: 0.7;
 
 }
 .editBoard__close-img{
     width: 15px; 
     filter: invert(44%) sepia(82%) saturate(455%) hue-rotate(203deg) brightness(79%) contrast(97%)
+   
 }
 
 .editBoard__form{
@@ -41,7 +45,7 @@
     align-self: flex-start;
     margin-left: 40px;
     margin-top: 32px;
-    /* margin-bottom: 40px; */
+
     font-weight: 700;
 font-size: 18px;
 line-height: 23px;
@@ -99,6 +103,14 @@ font-weight: 500;
 }
 .editBoard__form-column-delete{
     width: 5%;
+    margin-left: 16px;
+}
+
+.editBoard__form-column-delete:hover>img{
+    filter: invert(51%) sepia(64%) saturate(3911%) hue-rotate(330deg) brightness(97%) contrast(88%)
+}
+.editBoard__form-column-delete-img{
+    width: 15px;
 }
 .editBoard__form-buttons-wrapper{
     width: 400px;
@@ -112,7 +124,6 @@ font-weight: 500;
     margin: 12px 0;
     border-radius: 20px;
     color: white;
-    background-color: cadetblue;
 }
 .editBoard__form-button--light-purple{
     color: #635FC7;

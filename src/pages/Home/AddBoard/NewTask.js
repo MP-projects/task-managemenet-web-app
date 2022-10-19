@@ -161,7 +161,7 @@ export default function NewTask({ boards, uid }) {
                       onClick={() => handleSubtaskDelete(subtask.id)}
                       type="button"
                       className="newTask__form-column-delete">
-                      X
+                      <img className=" newTask__form-column-delete-img" src={CloseIcon} alt="delete" />
                     </button>
                   </div>
                 );

@@ -4,6 +4,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { useCollection } from "../../hooks/useCollection";
 import produce from "immer";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useFirestore } from "../../hooks/useFirestore";
 
 //components
 import Menu from "./Menu/Menu";
@@ -14,7 +15,7 @@ import NewTask from "./AddBoard/NewTask";
 
 //styles
 import "./Home.css";
-import { useFirestore } from "../../hooks/useFirestore";
+
 
 export default function Home() {
   const { user } = useAuthContext();
@@ -40,12 +41,12 @@ export default function Home() {
     ["uid", "==", "4PfvxJhCVkMsUuwHgoVSlYoENir1"]
   );
 
-const {addDocument:addDocumentUserData}= useFirestore("userData")
+
 
   const [boards, setboards] = useState(null);
   const [tasks, setTasks] = useState(null);
   const [currentUserData, setCurrentUserData] = useState("");
-
+console.log("render")
   useEffect(() => {
     if (dataBoards) {
       const boards = produce(dataBoards, (draft) => {
@@ -75,7 +76,7 @@ const {addDocument:addDocumentUserData}= useFirestore("userData")
   return (
     <>
       <Menu uid={user.uid} boards={boards} tasks={tasks} />
-      <div className="home wrapper">
+      <div className="home-wrapper">
         <Navbar
           uid={user.uid}
           boards={boards}

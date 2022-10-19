@@ -1,13 +1,26 @@
+
+.delete__background-color{
+    width: 1440px;
+    height: 1024px;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: black;
+    opacity: 0.5;
+    z-index: 1;
+}
+
 .delete{
     width: 480px;
     min-height: 230px;
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 35%;
     transform: translate(-50%, -50%);
     background-color: white;
     border-radius: 6px;
-    z-index: 1;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: center;

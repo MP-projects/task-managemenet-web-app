@@ -29,7 +29,7 @@ export default function SingleColumn({ column, tasks }) {
 
   return (
     
-    <section className={`singleColumn`}>
+    <section className="singleColumn">
       <h2 className="singleColumn__title">
         <div className="singleColumn__circle" style={columnStyle(column.name)}></div>
         {(column&&tasks) &&`${column.value}(${tasks.length})`}

@@ -5,6 +5,7 @@
     background-color: white;
     display: flex;
     justify-content: space-between;
+    position: relative;
 
 }
 .navbar__text-wrapper{
@@ -35,6 +36,12 @@ display: flex;
 justify-content: center;
 align-items: center;
 }
+.navabar__new-task-button--active{
+opacity: 1;
+}
+.navabar__new-task-button--active:hover{
+    background-color: #A8A4FF;
+}
 .navabr__new-task-text{
     display: block;
     font-weight: 700;
@@ -43,9 +50,21 @@ align-items: center;
     color: #FFFFFF;
 }
 .navbar__board-menu-button{
-    width: 20px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 0.8;
+}
+.navbar__board-menu-button-img{
+    width: 35px;
+    filter: invert(40%) sepia(40%) saturate(750%) hue-rotate(203deg) brightness(94%) contrast(105%);
+    
+}
+.navbar__board-menu-button:hover{
+    opacity: 0.25;
+}
+.navbar__board-menu-button--active{
+    opacity: 0.25;
 }

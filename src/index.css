@@ -47,3 +47,13 @@ button{
   background-color: transparent;
   cursor: pointer;
 }
+input:autofill{
+  transition: background-color 5000s ease-in-out 0s;
+  background-image: unset;
+  
+}
+
+input:-webkit-autofill{
+  transition: background-color 5000s ease-in-out 0s;
+  background-image: unset;
+}
