@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/MP-projects/task-managemenet-web-app/static/css/main.9f734ce9.css",
-    "main.js": "/MP-projects/task-managemenet-web-app/static/js/main.ba2d01d5.js",
-    "static/js/787.48843309.chunk.js": "/MP-projects/task-managemenet-web-app/static/js/787.48843309.chunk.js",
-    "static/media/logo-dark.svg": "/MP-projects/task-managemenet-web-app/static/media/logo-dark.ac4c8e487da046e58b1d44d8797a975e.svg",
-    "index.html": "/MP-projects/task-managemenet-web-app/index.html",
-    "static/media/icon-light-theme.svg": "/MP-projects/task-managemenet-web-app/static/media/icon-light-theme.b98efecd506358014a7ae1eadb34e36c.svg",
-    "static/media/icon-hide-sidebar.svg": "/MP-projects/task-managemenet-web-app/static/media/icon-hide-sidebar.0e2c68ccd652fb10d8ba0c0c7f3a2f60.svg",
-    "static/media/pen-to-square-solid.svg": "/MP-projects/task-managemenet-web-app/static/media/pen-to-square-solid.4d579e09a4f4fc9b546b9913a5bd8488.svg",
-    "static/media/icon-dark-theme.svg": "/MP-projects/task-managemenet-web-app/static/media/icon-dark-theme.9812582fa58ec8051801098dbfd8c29d.svg",
-    "static/media/xmark-solid.svg": "/MP-projects/task-managemenet-web-app/static/media/xmark-solid.ae469738e479d31aa952364e12120ad2.svg",
-    "static/media/icon-board.svg": "/MP-projects/task-managemenet-web-app/static/media/icon-board.29b48f5174742b4dd3a04f52d710293c.svg",
-    "static/media/pen-solid.svg": "/MP-projects/task-managemenet-web-app/static/media/pen-solid.d56bf1faddf487292f26d562ebe24ae7.svg",
-    "static/media/trash-solid.svg": "/MP-projects/task-managemenet-web-app/static/media/trash-solid.26cfd3d2054b6e033432eeaef8b63944.svg",
-    "static/media/check-solid.svg": "/MP-projects/task-managemenet-web-app/static/media/check-solid.d77a6106b69459fb02faabc5c2925156.svg",
-    "static/media/icon-cross.svg": "/MP-projects/task-managemenet-web-app/static/media/icon-cross.d4ca9e0d2a82f7ea4ae08238a42f84ed.svg",
-    "main.9f734ce9.css.map": "/MP-projects/task-managemenet-web-app/static/css/main.9f734ce9.css.map",
-    "main.ba2d01d5.js.map": "/MP-projects/task-managemenet-web-app/static/js/main.ba2d01d5.js.map",
-    "787.48843309.chunk.js.map": "/MP-projects/task-managemenet-web-app/static/js/787.48843309.chunk.js.map"
+    "main.css": "/task-managemenet-web-app/static/css/main.9f734ce9.css",
+    "main.js": "/task-managemenet-web-app/static/js/main.66239ea6.js",
+    "static/js/787.48843309.chunk.js": "/task-managemenet-web-app/static/js/787.48843309.chunk.js",
+    "static/media/logo-dark.svg": "/task-managemenet-web-app/static/media/logo-dark.ac4c8e487da046e58b1d44d8797a975e.svg",
+    "index.html": "/task-managemenet-web-app/index.html",
+    "static/media/icon-light-theme.svg": "/task-managemenet-web-app/static/media/icon-light-theme.b98efecd506358014a7ae1eadb34e36c.svg",
+    "static/media/icon-hide-sidebar.svg": "/task-managemenet-web-app/static/media/icon-hide-sidebar.0e2c68ccd652fb10d8ba0c0c7f3a2f60.svg",
+    "static/media/pen-to-square-solid.svg": "/task-managemenet-web-app/static/media/pen-to-square-solid.4d579e09a4f4fc9b546b9913a5bd8488.svg",
+    "static/media/icon-dark-theme.svg": "/task-managemenet-web-app/static/media/icon-dark-theme.9812582fa58ec8051801098dbfd8c29d.svg",
+    "static/media/xmark-solid.svg": "/task-managemenet-web-app/static/media/xmark-solid.ae469738e479d31aa952364e12120ad2.svg",
+    "static/media/icon-board.svg": "/task-managemenet-web-app/static/media/icon-board.29b48f5174742b4dd3a04f52d710293c.svg",
+    "static/media/pen-solid.svg": "/task-managemenet-web-app/static/media/pen-solid.d56bf1faddf487292f26d562ebe24ae7.svg",
+    "static/media/trash-solid.svg": "/task-managemenet-web-app/static/media/trash-solid.26cfd3d2054b6e033432eeaef8b63944.svg",
+    "static/media/check-solid.svg": "/task-managemenet-web-app/static/media/check-solid.d77a6106b69459fb02faabc5c2925156.svg",
+    "static/media/icon-cross.svg": "/task-managemenet-web-app/static/media/icon-cross.d4ca9e0d2a82f7ea4ae08238a42f84ed.svg",
+    "main.9f734ce9.css.map": "/task-managemenet-web-app/static/css/main.9f734ce9.css.map",
+    "main.66239ea6.js.map": "/task-managemenet-web-app/static/js/main.66239ea6.js.map",
+    "787.48843309.chunk.js.map": "/task-managemenet-web-app/static/js/787.48843309.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.9f734ce9.css",
-    "static/js/main.ba2d01d5.js"
+    "static/js/main.66239ea6.js"
   ]
 }
