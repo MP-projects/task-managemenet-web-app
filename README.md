@@ -35,8 +35,8 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://github.com/MP-projects/task-managemenet-web-app)
-- Live Site URL: [Add live site URL here](https://github.com/MP-projects/task-managemenet-web-app)
+- Solution URL: [Code](https://github.com/MP-projects/task-managemenet-web-app)
+- Live Site URL: [Live site](https://mp-projects.github.io/task-managemenet-web-app/)
 
 ## My process
 
