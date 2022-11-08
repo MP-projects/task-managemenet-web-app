@@ -1,10 +1,11 @@
-import React from "react";
 import { useEffect, useState, useRef } from "react";
-import useOnClickOutside from "../hooks/useOnClickOutside";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { Link, useLocation } from "react-router-dom";
+import useOnClickOutside from "../../../hooks/useOnClickOutside";
+import { useAuthContext } from "../../../hooks/useAuthContext";
+import { useTheme } from "../../../hooks/useTheme";
 
 //components
-import Delete from "./Delete";
+import Delete from "../../../components/Delete";
 
 //styles
 import "./UserMenu.css";
@@ -20,8 +21,9 @@ export default function UserMenu({
   const [menuClicked, setMenuClicked] = useState(null);
   const [deleteClicked, setDeleteClicked] = useState(false);
   const [logoutClicked, setLogoutClicked] = useState(false);
-
+  // rF7CMBktroU0XI3iTXCyERXnRPl1
   const { user } = useAuthContext();
+  const { darkMode } = useTheme();
 
   const ref = useRef();
   useOnClickOutside(ref, () => {
@@ -33,11 +35,21 @@ export default function UserMenu({
     }
   });
 
+  const location = useLocation();
+
   const clearDataTitleDescription = "Delete all boards?";
   const clearDataDecription = `Are you sure you want to delete all boards?
    This action will remove all boards and tasks and cannot be reversed.`;
   const logoutTitleDescription = "Logout?";
   const logoutDecription = "Are you sure you want to logout?";
+
+  const handleCloseMenu = () => {
+    setMenuClicked(!menuIsClicked);
+    setTimeout(() => {
+      handleMenuButton(!menuIsClicked);
+    }, 100);
+  };
+
   const handleLogoutButton = (value) => {
     setLogoutClicked(value);
   };
@@ -56,7 +68,7 @@ export default function UserMenu({
       setMenuClicked(menuIsClicked);
     }
   }, [menuIsClicked]);
-  console.log(menuClicked);
+
   return (
     <>
       {deleteClicked && (
@@ -78,24 +90,58 @@ export default function UserMenu({
 
       <section
         ref={ref}
-        className={`userMenu ${menuClicked && "userMenu--active"}`}>
+        className={`userMenu ${menuClicked ? "userMenu--active" : ""} ${
+          darkMode ? "darkMode--dark" : ""
+        }`}>
         <ul
           className={`userMenu__list ${
             !menuClicked && "userMenu__list--display-none"
           }`}>
           <li className="userMenu__user-name">
-            <p className="userMenu__user-name-p">
+            <p
+              className={`userMenu__user-name-p ${
+                darkMode ? "darkMode--dark" : ""
+              }`}>
               Logged as:
               <br />
-              <strong>{(user && user.displayName) ? user.displayName.toUpperCase() : "GUEST"}</strong>
+              <strong>
+                {user && user.displayName
+                  ? user.displayName.toUpperCase()
+                  : "GUEST"}
+              </strong>
             </p>
           </li>
-          <li className="userMenu__list-element">
-            <button className="userMenu__list-button">
-              <p className="userMenu__list-button-p">My account </p>
-            </button>
-          </li>
-          <li className="userMenu__list-element">
+          {user &&
+            (user.isAnonymous ? (
+              <li
+                className={`userMenu__list-element ${
+                  darkMode ? "darkMode--hover" : ""
+                }`}>
+                <Link
+                  onClick={handleCloseMenu}
+                  to={`${location.pathname}/register`}
+                  className="userMenu__list-button">
+                  <p className="userMenu__list-button-p">Sign up</p>
+                </Link>
+              </li>
+            ) : (
+              <li
+                className={`userMenu__list-element ${
+                  darkMode ? "darkMode--hover" : ""
+                }`}>
+                <Link
+                  onClick={handleCloseMenu}
+                  to={`${location.pathname}/profile`}
+                  className="userMenu__list-button">
+                  <p className="userMenu__list-button-p">My account </p>
+                </Link>
+              </li>
+            ))}
+
+          <li
+            className={`userMenu__list-element ${
+              darkMode ? "darkMode--hover" : ""
+            }`}>
             {currentUserData && currentUserData.example ? (
               <button
                 className="userMenu__list-button"
@@ -115,22 +161,14 @@ export default function UserMenu({
                 </p>
               </button>
             )}
-            {/* {!currentUserData && (
-              <button
-                className="userMenu__list-button"
-                onClick={() => handleExampleData(true)}>
-                <p className="userMenu__list-button-p">
-                  {" "}
-                  Turn on example data{" "}
-                </p>
-              </button>
-            )} */}
           </li>
           <li
             className={`userMenu__list-element userMenu__list-element--remove ${
               !(boards && boards.length > 0) &&
               "userMenu__list-element--disabled"
-            }`}>
+            } ${
+              darkMode && boards && boards.length > 0 ? "darkMode--hover" : ""
+            }  `}>
             <button
               onClick={() => handleDeleteButton(true)}
               disabled={boards && boards.length > 0 ? false : true}
@@ -138,7 +176,10 @@ export default function UserMenu({
               <p className="userMenu__list-button-p">Remove all boards</p>
             </button>
           </li>
-          <li className="userMenu__list-element">
+          <li
+            className={`userMenu__list-element ${
+              darkMode ? "darkMode--hover" : ""
+            }`}>
             <button
               onClick={handleLogoutButton}
               className="userMenu__list-button">

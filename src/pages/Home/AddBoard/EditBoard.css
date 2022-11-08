@@ -3,7 +3,7 @@
     min-height: 440px;
     position: absolute;
     left: 50%;
-    top: 35%;
+    top: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
     border-radius: 6px;
@@ -83,13 +83,22 @@ line-height: 23px;
     display: flex;
 }
 .editBoard__form-select{
+    outline: none;
     margin: 12px 0;
     width: 100%;
     height: 40px;
     border: 1px solid rgba(130, 143, 163, 0.25);
     border-radius: 4px;
 }
+.editBoard__form-select:hover{    
+    border: 1px solid black;     
+}
+.editBoard__form-select:focus{
+   
+    border: 2px solid #635FC7;  
+}
 .editBoard__form-input{
+    outline: none;
     width: 100%;
     height: 40px;
     margin: 12px 0;
@@ -100,6 +109,19 @@ line-height: 40px;
 padding-left: 10px;
 font-size: 13px;
 font-weight: 500;
+}
+
+.editBoard__form-input--error{
+    border: 2px solid red !important;
+}
+.editBoard__form-input:hover{
+    
+    border: 1px solid black;
+      
+}
+.editBoard__form-input:focus{
+   
+    border: 2px solid #635FC7;  
 }
 .editBoard__form-column-delete{
     width: 5%;
@@ -133,6 +155,10 @@ font-weight: 500;
     background-color:rgba(99, 95, 199, 0.25);
      
 }
+.editBoard__form-button--light-purple-disabled{
+    background-color:rgba(99, 95, 199, 0.25);
+     
+}
 .editBoard__form-button--purple{
     background-color: #635FC7;
     margin-left: 8px;
@@ -140,7 +166,9 @@ font-weight: 500;
 .editBoard__form-button--purple:hover{
     background-color: #A8A4FF;
 }
-
+.editBoard__form-button--disabled{
+    background-color: #A8A4FF;
+}
 
 .editBoard__form-button--delete{
     background-color: #EA5555;
@@ -158,6 +186,9 @@ line-height: 23px;
 }
 
 .editBoard__form-alert{
+    height: 20px;
+    width: 100%;
+    text-align: center;
     margin-top: 10px;
     font-weight: 700;
     font-size: 16px;

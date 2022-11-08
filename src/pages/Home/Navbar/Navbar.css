@@ -1,5 +1,5 @@
 .navbar{
-    width: 1130px;
+    width: 1200px;
     height: 100px;
     margin: 10px 10px 10px 0;
     background-color: white;
@@ -17,7 +17,7 @@
 font-weight: 700;
 font-size: 24px;
 line-height: 30px;
-color: #000112;
+color: #635FC7;
 }
 .navbar__board-menu-wrapper{
     margin-right: 22px;
@@ -55,16 +55,18 @@ opacity: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0.8;
+    border-radius: 50%;
+    background-color: rgba(0,0,0,0.05)
+   
 }
 .navbar__board-menu-button-img{
-    width: 35px;
-    filter: invert(40%) sepia(40%) saturate(750%) hue-rotate(203deg) brightness(94%) contrast(105%);
+    width: 100%;
+    border-radius: 50%;
     
 }
 .navbar__board-menu-button:hover{
-    opacity: 0.25;
+    opacity: 0.5;
 }
 .navbar__board-menu-button--active{
-    opacity: 0.25;
+    opacity: 0.5;
 }

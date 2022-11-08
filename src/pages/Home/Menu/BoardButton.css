@@ -58,7 +58,7 @@ align-items: center;
  word-wrap: break-word;
  }
 .active{
-    background-color: #635FC7;;
+    background-color: #635FC7 !important;
 }
 
 .active>.menu__board-element-button>li{

@@ -35,7 +35,7 @@ export const useSignup = (remember=false) => {
       }
 
       // add display name to user
-      await res.user.updateProfile({ displayName });
+      await res.user.updateProfile({ displayName, photoURL:`https://robohash.org/guest` });
       dispatch({ type: "LOGIN", payload: res.user });
 
       if (!isCancelled) {
@@ -45,10 +45,10 @@ export const useSignup = (remember=false) => {
       }
     } catch (err) {
       if (!isCancelled) {
-        console.log(err.message);
         setError(err.message);
         setIsPending(false);
         setIsSuccess(null);
+        return err
       }
     }
   };

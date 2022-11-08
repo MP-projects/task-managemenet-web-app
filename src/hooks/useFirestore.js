@@ -67,6 +67,7 @@ export const useFirestore = (collection) => {
       });
     } catch (err) {
       dispatchIfNotCancelled({ type: "ERROR", payload: err.message });
+      return err
     }
   };
 
@@ -83,6 +84,7 @@ export const useFirestore = (collection) => {
       });
     } catch (err) {
       dispatchIfNotCancelled({ type: "ERROR", payload: err.message });
+      return err
     }
   };
 
@@ -98,6 +100,7 @@ export const useFirestore = (collection) => {
     
     } catch (err) {
       dispatchIfNotCancelled({ type: "ERROR", payload: "could not delete" });
+      return err
     }
   };
 

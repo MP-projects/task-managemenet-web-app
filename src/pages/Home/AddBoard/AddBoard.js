@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate} from "react-router-dom";
 import { useFirestore } from "../../../hooks/useFirestore";
 import produce from "immer";
+import { useValidate } from "../../../hooks/useValidate";
+import useOnClickOutside from "../../../hooks/useOnClickOutside";
+import { useTheme } from "../../../hooks/useTheme";
 
 //styles
 import "./AddBoard.css";
@@ -10,46 +13,92 @@ import "./AddBoard.css";
 import CloseIcon from "../../../assets/icon-cross.svg";
 
 export default function AddBoard({ uid, boards }) {
-  const initialState = ["Todo", "Doing", "Done", "Custom"];
-
-  const [currentBoards, setCurrentBoards] = useState(boards);
   const initialColumns = [
-    { active: false, name: "Todo", value: "Todo" },
-    { active: false, name: "Doing", value: "Doing" },
-    { active: false, name: "Done", value: "Done" },
-    { active: false, name: "Custom", value: "Custom" },
+    { active: false, name: "Todo", value: "Todo", error: false },
+    { active: false, name: "Doing", value: "Doing", error: false },
+    { active: false, name: "Done", value: "Done", error: false },
+    { active: false, name: "Custom", value: "Custom", error: false },
   ];
 
-  const [option, setOption] = useState("");
   const [columns, setColumns] = useState(initialColumns);
 
+  const [option, setOption] = useState("");
   const [name, setName] = useState("");
-  const [isColumn, setIsColumn] = useState(true);
-  const [isSelected, setIsSelected] = useState(false);
-  const [allColumns, setAllColumns] = useState(false);
-  const [isShort, setIsShort] = useState(false);
-  const [isName, setIsName] = useState(true);
+  const [errorName, setErrorName] = useState("");
 
-  //firestore
+  const [isAllColumns, setIsAllColumns] = useState(false);
+
+  const [isError, setIsError] = useState(false);
+  const [displayMessage, setDisplayMessage] = useState("");
+
   const { addDocument, response } = useFirestore("boards");
+
+  const { validate } = useValidate();
+
+  const { darkMode } = useTheme();
+
   const navigate = useNavigate();
-  const params = useParams();
+
+  const ref = useRef();
+  useOnClickOutside(ref, () => {
+    navigate(-1);
+  });
+
+  const handleClearErrors = () => {
+    setErrorName(false);
+    setIsError(false);
+    setDisplayMessage("");
+  };
 
   const handleNameChange = (e) => {
-    if (name.length < 50) {
-      setName(e.target.value);
+    setName(e.target.value);
+    handleClearErrors();
+    setColumns(
+      produce(columns, (draft) => {
+        draft.forEach((element) => {
+          element.error = false;
+        });
+      })
+    );
+  };
+  const validation = () => {
+    const validateName = validate("name", name);
+    if (validateName) {
+      setErrorName(validateName);
+
+      return validateName;
     }
-    if (name) {
-      setIsName(true);
-    }
-    if (name.length > 1) {
-      setIsShort(false);
+
+    let firstError = "";
+
+    const validatedColumns = produce(columns, (draft) => {
+      draft.forEach((element) => {
+        element.error = false;
+      });
+
+      draft.every((element) => {
+        const _validate = validate("column", element.value);
+
+        if (_validate) {
+          element.error = true;
+          firstError = _validate;
+          return false;
+        } else return true;
+      });
+    });
+    if (firstError) {
+      setColumns(validatedColumns);
+      return firstError;
     }
   };
 
   const handleColumnsChange = (e, column) => {
+    handleClearErrors();
     const newColumns = produce(columns, (draft) => {
       draft.forEach((element) => {
+        if (element.error) {
+          element.error = false;
+        }
         if (element.name === column.name) {
           element.value = e.target.value;
         }
@@ -59,23 +108,37 @@ export default function AddBoard({ uid, boards }) {
   };
 
   const handleColumnDelete = (columnName) => {
+    handleClearErrors();
+    const activeColumns = columns.filter((element) => element.active);
+    if (activeColumns.length === initialColumns.length) {
+      setIsAllColumns(false);
+    }
     const newColumns = produce(columns, (draft) => {
       draft.forEach((element) => {
-        if (element.name === columnName) element.active = false;
+        if (element.error) {
+          element.error = false;
+        }
+        if (element.name === columnName) {
+          element.active = false;
+          element.value = element.name;
+        }
       });
     });
     setColumns(newColumns);
   };
 
   const handleAddColumn = () => {
-    const activeColumns = columns.filter((element) => element.active);
-    if (activeColumns.length === initialState.length) {
-      setAllColumns(true);
+    handleClearErrors();
+    if (option === "All Columns") {
+      const newColumns = produce(columns, (draft) => {
+        draft.forEach((element) => {
+          element.active = true;
+        });
+      });
+      setColumns(newColumns);
+    } else if (option === "") {
+      setDisplayMessage("Choose a column");
     } else {
-      setAllColumns(false);
-    }
-
-    if (option !== "" && option !== "All Columns") {
       const newColumns = produce(columns, (draft) => {
         draft.forEach((element) => {
           if (element.name === option) {
@@ -84,48 +147,60 @@ export default function AddBoard({ uid, boards }) {
         });
       });
       setColumns(newColumns);
-    } else if (option === "All Columns") {
-      const newColumns = produce(columns, (draft) => {
-        draft.forEach((element) => {
-          element.active = true;
-        });
-      });
-      setColumns(newColumns);
     }
+
+    setOption("");
   };
 
   const createNewDocument = () => {
+    const _columns = produce(columns, (draft) => {
+      draft.forEach((element) => {
+        delete element.error;
+      });
+    });
     let newDocument = {
       name,
-      columns: columns,
+      columns: _columns,
       uid,
     };
     return newDocument;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (name) {
-      if (name.length >= 3) {
-        if (columns.length > 0) {
-          const newDocument = createNewDocument();
-          addDocument(newDocument);
-        } else {
-          setIsColumn(false);
-        }
-      } else {
-        setIsShort(true);
+    setDisplayMessage("");
+    const activeColumns = columns.filter((element) => element.active === true);
+    if (activeColumns.length === 0) {
+      setDisplayMessage("Add a column!");
+      return;
+    }
+    const errorText = validation();
+    if (errorText) {
+      setDisplayMessage(errorText);
+      return;
+    }
+    const newDocument = createNewDocument();
+    try {
+      const errorCreateBoard = await addDocument(newDocument);
+      if (errorCreateBoard) {
+        throw Error ("Couldn't create new board");
       }
-    } else {
-      setIsName(false);
+    } catch (error) {
+      setDisplayMessage(error.message);
     }
   };
 
-  const closeAddBoard = () => {
-    navigate(-1);
-  };
-
   useEffect(() => {
+    const errorColumns = columns.filter((element) => element.error);
+    if (errorName || errorColumns.length > 0) {
+      setIsError(true);
+    }
+
+    const activeColumns = columns.filter((element) => element.active);
+    if (activeColumns.length === initialColumns.length) {
+      setIsAllColumns(true);
+    }
+
     if (response.succes) {
       if (boards) {
         const sortedBoards = produce(boards, (draft) => {
@@ -138,15 +213,14 @@ export default function AddBoard({ uid, boards }) {
         navigate(-1);
       }
     }
-  }, [response.succes, boards]);
+  }, [response.succes, boards, columns, errorName, initialColumns.length, navigate]);
 
   return (
     <>
       <div className="background-color"></div>
-      <section className="newBoard">
-        <button className="newBoard__close-button" onClick={closeAddBoard}>
-          <img src={CloseIcon} alt="close" className="newBoard__close-img" />
-        </button>
+      <section
+        ref={ref}
+        className={`newBoard ${darkMode ? "darkMode--light" : ""}`}>
         <form onSubmit={handleSubmit} className="newBoard__form">
           <h2 className="newBoard__form-h2">Create New Board</h2>
           <div className="newBoard__form-wrapper">
@@ -154,19 +228,33 @@ export default function AddBoard({ uid, boards }) {
             <input
               placeholder="e.g. Web Design"
               type="text"
-              className="newBoard__form-input"
+              className={`newBoard__form-input ${
+                errorName ? "newBoard__form-input--error" : ""
+              } ${darkMode ? "darkMode--light" : ""}`}
               value={name}
-              onChange={(e) => handleNameChange(e)}
+              onChange={handleNameChange}
             />
           </div>
           <div className="newBoard__form-wrapper">
             <span className="newBoard__form-span">Columns</span>
+            <div className="select">
             <select
-              className="newBoard__form-select"
+              className={`newBoard__form-select ${
+                darkMode ? "darkMode--select" : ""
+              }`}
               name="Column name"
               defaultValue={""}
-              onChange={(e) => e.target.value && setOption(e.target.value)}>
-              <option value="">Choose column</option>
+              disabled={isAllColumns}
+              onChange={(e) => {
+                e.target.value && setOption(e.target.value);
+                handleClearErrors();
+              }}>
+              <option
+                
+                hidden
+                value="">
+                {isAllColumns ? "All columns selected" : "Choose column"}
+              </option>
               {columns &&
                 columns.map((item) => {
                   if (item.active === false)
@@ -175,9 +263,13 @@ export default function AddBoard({ uid, boards }) {
                         {item.name}
                       </option>
                     );
+                  return ""
                 })}
-              <option value="All Columns">All Columns</option>
-            </select>
+              {!isAllColumns && (
+                <option value="All Columns">All Columns</option>
+              )}
+              </select>
+              </div>
 
             {columns &&
               columns.map((column) => {
@@ -188,9 +280,13 @@ export default function AddBoard({ uid, boards }) {
                         key={column.name}
                         className="newBoard__form-input-wrapper">
                         <input
-                          className="newBoard__form-input"
+                          className={`newBoard__form-input ${
+                            column.error ? "newBoard__form-input--error" : ""
+                          } ${darkMode?"darkMode--light":""}`}
                           value={column.value}
-                          onChange={(e) => handleColumnsChange(e, column)}
+                          onChange={(e) => {
+                            handleColumnsChange(e, column);
+                          }}
                         />
                         <button
                           type="button"
@@ -198,42 +294,32 @@ export default function AddBoard({ uid, boards }) {
                             handleColumnDelete(column.name);
                           }}
                           className="newBoard__form-column-delete">
-                         <img className=" newBoard__form-column-delete-img" src={CloseIcon} alt="delete" />
+                          <img
+                            className=" newBoard__form-column-delete-img"
+                            src={CloseIcon}
+                            alt="delete"
+                          />
                         </button>
                       </div>
                     );
+                return ""
               })}
 
-            {!isColumn && (
-              <p className="newBoard__form-alert">
-                You can not create a board without columns! Create new column
-              </p>
-            )}
-            {isSelected && (
-              <p className="newBoard__form-alert">Choose a column!</p>
-            )}
-            {allColumns && (
-              <p className="newBoard__form-alert">You chose all columns!</p>
-            )}
-            {isShort && (
-              <p className="newBoard__form-alert">
-                Board name must be at least 3 characters!
-              </p>
-            )}
-            {!isName && (
-              <p className="newBoard__form-alert">Name your board!</p>
-            )}
+            <p className="newBoard__form-alert">{displayMessage}</p>
           </div>
           <div className="newBoard__form-wrapper">
             <button
               onClick={handleAddColumn}
               type="button"
+              disabled={isAllColumns}
               className="newBoard__form-button newBoard__form-button--light-purple">
               <p className="newBoard__form-button-p">+ Add New Column</p>
             </button>
             <button
-              disabled={!isColumn ? true : false}
-              className="newBoard__form-button newBoard__form-button--purple">
+              disabled={isError}
+              className={`newBoard__form-button newBoard__form-button--purple ${
+                isError ? "newBoard__form-button--disabled" : ""
+              }`}>
               <p className="newBoard__form-button-p">Create new Board</p>
             </button>
           </div>

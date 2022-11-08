@@ -5,18 +5,62 @@
     background-color: #fff;
     display: flex;
     flex-direction: column;
-
-    
-
 }
 
 .menu__logo{
-padding: 40px 100px 54px 46px;
-
     
+width: 100%;
+height: 100px;
+margin-top: 10px;
+margin-bottom: 20px;
+
+display: flex;
+justify-content: center;
+align-items: center;
+    
+}
+.menu__logo-img{
+    width: 240px;
+    cursor: pointer;
+  
 }
 .menu__board-list{
     flex-basis: 70%;
+    margin-bottom: 40px;
+    
+}
+.menu__board-list-wrapper{
+    max-height: 640px;
+    margin-bottom: 20px;
+    overflow-y: auto;
+}
+.menu__board-list-wrapper::-webkit-scrollbar-track
+{ margin: 10px 0;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);;
+	border-radius: 10px;
+	background-color: white; 
+}
+
+.menu__board-list-wrapper::-webkit-scrollbar
+{ 
+	width: 12px;
+	background-color:white  ;
+}
+
+.menu__board-list-wrapper::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: rgba(99, 95, 199, 0.1); 
+    
+}
+.menu__board-list-wrapper::-webkit-scrollbar-thumb:hover
+{
+
+    background-color:rgba(99, 95, 199, 0.25);
+    
 }
 .menu__boards-counter{
     width: 100%;
@@ -44,21 +88,30 @@ align-items: center;
     display: flex;
     color: #635FC7;
 }
+.menu__create-button:hover{
+    color: #A8A4FF;
+}
+.menu__create-button:hover>.menu__create-button-img{
+    filter: brightness(0); 
+    filter: invert(59%) sepia(50%) saturate(512%) hue-rotate(203deg) brightness(104%) contrast(103%);
+}
 .menu__create-button-img{
     padding: 0 16px 0 32px ;
     filter: brightness(0);
     filter: invert(49%) sepia(84%) saturate(3647%) hue-rotate(223deg) brightness(82%) contrast(87%);
+    
 }
 .menu__create-button-text{
     font-weight: 700;
     font-size: 15px;
     line-height: 19px;
-    color: #635FC7;
+    
 }
 .menu__toggle-mode{
 flex-basis: 20%;
 display: flex;
 flex-direction: column;
+justify-content: flex-end;
 align-items: center;
 }
 .menu__toggle-mode-wrapper{
@@ -76,19 +129,31 @@ align-items: center;
     height: 20px;
     margin: 0 12px;
     border-radius: 20px;
-    background-color: #635FC7;;
+    background-color: #635FC7;
+    display: flex;
+    position: relative;
+    align-items: center;
+    
 }
+
 .menu__toggle-mode-button-circle {
-    margin-left: 5px;
+    position: absolute;
+    left: 5px;
     width: 14px;
     height: 14px;
     border-radius: 50%;
     background-color: white;
+    transition: 0.2s;
+}
+.menu__toggle-mode-button-circle--dark {
+    left:calc(100% - 19px)
+ 
 }
 
 .menu__hide-sidebar{
     width: 75%;
     height: 48px;
+    margin-bottom: 40px;
     display: flex;
     align-items: center;
 }

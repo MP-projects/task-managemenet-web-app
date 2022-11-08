@@ -1,15 +1,4 @@
 
-.delete__background-color{
-    width: 1440px;
-    height: 1024px;
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
-    background-color: black;
-    opacity: 0.5;
-    z-index: 1;
-}
 
 .delete{
     width: 480px;

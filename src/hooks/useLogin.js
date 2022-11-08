@@ -16,7 +16,7 @@ export const useLogin = (remember = false) => {
 
     try {
       // sign in
-  
+
       
       if (remember) {
         projectAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL) 
@@ -37,9 +37,9 @@ export const useLogin = (remember = false) => {
       }
     } catch (err) {
       if (!isCancelled) {
-        console.log(err.message);
         setError(err.message);
         setIsPending(false);
+      return err
       }
     }
   };

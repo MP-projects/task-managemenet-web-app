@@ -9,6 +9,7 @@
     border-radius: 8px;
     transition: 0.1s;
     overflow: hidden;
+    z-index: 1;
 
 }
 .userMenu--active{
@@ -43,7 +44,7 @@ height: 250px;
     
     
 }
- .userMenu__list-element:hover>button>p{
+ .userMenu__list-element:hover>.userMenu__list-button>p{
     color: #635FC7
  }
  .userMenu__list-element--remove:hover>button>p{
@@ -51,18 +52,26 @@ height: 250px;
  }
  .userMenu__list-element--disabled{
     opacity: 0.8;
+
+ }
+ .userMenu__list-element--disabled>.userMenu__list-button{
+   cursor: default;
+
  }
  .userMenu__list-element--disabled:hover{
     background-color: transparent;
  }
- .userMenu__list-element--disabled:hover>button>p{
-    color: #828FA3;
+ .userMenu__list-element--disabled:hover>.userMenu__list-button>p{
+    color:#828FA3;;
  }
  .userMenu__list-button{
+    display: flex;
+    align-items: center;
     margin: 0 16px;
 width: 100%;
 height: 100%;
 text-align: left;
+
 
 }
 

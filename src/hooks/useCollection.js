@@ -18,7 +18,7 @@ export const useCollection = (collection, _query) => {
       (snapshot) => {
         let results = [];
         snapshot.docs.forEach((doc) => {
-          results.push({ ...doc.data(), id: doc.id });
+            results.push({ ...doc.data(), id: doc.id });   
         });
         //update state
 
@@ -26,7 +26,6 @@ export const useCollection = (collection, _query) => {
         setError(null);
       },
       (error) => {
-        error;
         setError("could not fetch the data");
       }
     );

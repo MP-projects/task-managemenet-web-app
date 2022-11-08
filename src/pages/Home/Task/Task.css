@@ -10,8 +10,11 @@ display: flex;
 flex-direction: column;
 justify-content: center
 }
-
+.task:hover>.task__title{
+    color: #635FC7;
+}
 .task__title{
+    overflow-wrap: break-word;
     font-weight: 700;
     font-size: 15px;
     line-height: 19px; 

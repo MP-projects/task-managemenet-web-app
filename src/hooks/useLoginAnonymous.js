@@ -4,7 +4,7 @@ import { projectAuth } from "../firebase/config";
 import { useAuthContext } from "./useAuthContext";
 import firebase from "firebase";
 
-export const useLoginAnonymous = (remember = false) => {
+export const useLoginAnonymous = (remember = true) => {
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const { dispatch } = useAuthContext();
@@ -16,8 +16,7 @@ export const useLoginAnonymous = (remember = false) => {
 
     try {
       // sign in
-  
-      
+   
       if (remember) {
         projectAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL) 
       }
@@ -27,7 +26,7 @@ export const useLoginAnonymous = (remember = false) => {
       const res = await projectAuth.signInAnonymously();
      
 
-      await res.user.updateProfile({ displayName :"GUEST" });
+      await res.user.updateProfile({ displayName :"GUEST", photoURL:`https://robohash.org/GUEST` });
       // dispatch login action
       dispatch({ type: "LOGIN", payload: res.user });
 
@@ -38,9 +37,9 @@ export const useLoginAnonymous = (remember = false) => {
       }
     } catch (err) {
       if (!isCancelled) {
-        console.log(err.message);
         setError(err.message);
         setIsPending(false);
+        return err
       }
     }
   };

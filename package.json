@@ -1,12 +1,14 @@
 {
   "name": "task-management-web-app",
   "version": "0.1.0",
-  "homepage": "https://github.com/MP-projects/task-managemenet-web-app",
+  "homepage": "https://mp-projects.github.io/task-managemenet-web-app/",
   "private": true,
   "dependencies": {
+    "@emailjs/browser": "^3.7.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "cors": "^2.8.5",
     "firebase": "8.5",
     "immer": "^9.0.15",
     "react": "^18.2.0",

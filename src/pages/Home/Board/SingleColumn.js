@@ -1,10 +1,9 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
-//components
-import Task from "./Task";
-import TaskView from "./TaskView";
-//styles
 
+//components
+import Task from "../Task/Task";
+
+//styles
 import "./SingleColumn.css";
 
 export default function SingleColumn({ column, tasks }) {
@@ -37,6 +36,7 @@ export default function SingleColumn({ column, tasks }) {
       <div className="singleColumn__task-wrapper">
         {tasks &&
           tasks.map((task) => {
+
             return (
               <Task key={task.id} task={task} />
             );

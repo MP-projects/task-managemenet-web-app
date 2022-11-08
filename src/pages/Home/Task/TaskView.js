@@ -1,25 +1,21 @@
 import React from "react";
-import { useEffect, useState, useRef, useMemo, useCallback } from "react";
-import {
-  Navigate,
-  useNavigate,
-  useParams,
-  useLocation,
-} from "react-router-dom";
-import useOnClickOutside from "../hooks/useOnClickOutside";
-import { useFirestore } from "../hooks/useFirestore";
+import { useEffect, useState, useRef} from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import useOnClickOutside from "../../../hooks/useOnClickOutside";
+import { useFirestore } from "../../../hooks/useFirestore";
 import produce from "immer";
+import { useValidate } from "../../../hooks/useValidate";
+import { useTheme } from "../../../hooks/useTheme";
 
 //styles
 import "./TaskView.css";
 
 //assets
-import CloseIcon from "../assets/icon-cross.svg";
-import Edit from "../assets/fontAwesome/pen-solid.svg";
-import Trash from "../assets/fontAwesome/trash-solid.svg";
+import Edit from "../../../assets/fontAwesome/pen-solid.svg";
+import Trash from "../../../assets/fontAwesome/trash-solid.svg";
 
 //components
-import Delete from "./Delete";
+import Delete from "../../../components/Delete";
 
 export default function TaskView({ tasks, board }) {
   const { setDocument, deleteDocument, response } = useFirestore("tasks");
@@ -27,7 +23,11 @@ export default function TaskView({ tasks, board }) {
   const [task, setTask] = useState(null);
 
   const [title, setTitle] = useState("");
+  const [errorTitle, setErrorTitle] = useState("");
+
   const [description, setDescription] = useState("");
+  const [errorDescription, setErrorDescription] = useState("");
+
   const [statusValue, setStatusValue] = useState();
   const [subtasks, setSubtasks] = useState([]);
   const [completedSubtasks, setCompletedSubtasks] = useState([]);
@@ -41,27 +41,53 @@ export default function TaskView({ tasks, board }) {
 
   const [isDelete, setIsDelete] = useState(false);
 
+  const [isError, setIsError] = useState(false);
+  const [displayMessage, setDisplayMessage] = useState("");
+
   const taskDeleteDescription = `Are you sure you want to delete the ${
     task && task.title
   } task? This action will remove all informations and subtasks and cannot be reversed.`;
   const titleDescription = `Delete this task ?`;
 
   const maxSubtasks = 6;
+  const { darkMode } = useTheme();
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const { validate } = useValidate();
   const ref = useRef();
-
+  const refSubtask = useRef();
+  
   useOnClickOutside(ref, () => {
-    setSubtasks(
-      produce(subtasks, (draft) => {
-        draft.forEach((subtask) => {
-          if (subtask.id === currentId) {
-            subtask.isEdited = false;
-          }
-        });
-      })
-    );
+    navigate(-1);
+  });
+
+  useOnClickOutside(refSubtask, () => {
+    let firstError = false;
+    const validatedSubtasks = produce(subtasks, (draft) => {
+      draft.every((subtask) => {
+        const validateSubtask = validate("text", subtask.title);
+        if (validateSubtask) {
+          subtask.error = true;
+          setIsError(true);
+          setDisplayMessage(validateSubtask);
+          firstError = true;
+          return false;
+        } else return true;
+      });
+    });
+    if (firstError) {
+      setSubtasks(validatedSubtasks);
+    } else {
+      setSubtasks(
+        produce(subtasks, (draft) => {
+          draft.forEach((subtask) => {
+            if (subtask.id === currentId) {
+              subtask.isEdited = false;
+            }
+          });
+        })
+      );
+    }
   });
 
   const sortByDate = (subtasks) => {
@@ -74,28 +100,48 @@ export default function TaskView({ tasks, board }) {
     return sortedSubtasks;
   };
   const handleTitleChange = (e) => {
+    setErrorTitle(false);
+    setIsError(false);
+    setDisplayMessage("");
     setTitle(e.target.value);
   };
   const handleTitleFocusOut = () => {
-    if (title.length > 0) {
+    const validateTitle = validate("title", title);
+    if (validateTitle) {
+      setErrorTitle(validateTitle);
+      setDisplayMessage(validateTitle);
+      return;
+    } else {
       setEditTitle(false);
     }
   };
   const handleEditTitle = () => {
-    setEditTitle(true);
-  };
-
-  const handleEditDescription = () => {
-    setEditDescription(true);
-  };
-  const handleDescriptionChange = (e) => {
-    if (description.length < 250) {
-      setDescription(e.target.value);
+    if (!isError) {
+      setEditTitle(true);
     }
   };
 
+  const handleEditDescription = () => {
+    if (!isError) {
+      setEditDescription(true);
+    }
+  };
+  const handleDescriptionChange = (e) => {
+    setErrorDescription(false);
+    setDisplayMessage("");
+    setIsError(false);
+    setDescription(e.target.value);
+  };
+
   const handleDescriptionFocusOut = (e) => {
-    setEditDescription(false);
+    const validateDescription = validate("description", description);
+    if (validateDescription) {
+      setErrorDescription(validateDescription);
+      setDisplayMessage(validateDescription);
+      return;
+    } else {
+      setEditDescription(false);
+    }
   };
   const handleDescriptionHeight = (e) => {
     setDescriptionHeight(e.target.scrollHeight + "px");
@@ -105,10 +151,6 @@ export default function TaskView({ tasks, board }) {
   };
   const handleStatusChange = (e) => {
     setStatusValue(e.target.value);
-  };
-
-  const closeTaskView = () => {
-    navigate(-1);
   };
 
   const handleSubtaskChange = (e, id, subtask) => {
@@ -128,7 +170,10 @@ export default function TaskView({ tasks, board }) {
       produce(subtasks, (draft) => {
         draft.forEach((subtask) => {
           if (subtask.id === id) {
+            subtask.error = false;
             subtask.title = e.target.value;
+            setIsError(false);
+            setDisplayMessage(false);
           }
         });
       })
@@ -136,48 +181,45 @@ export default function TaskView({ tasks, board }) {
   };
 
   const handleEditSubtask = (e, id) => {
-    setSubtasks(
-      produce(subtasks, (draft) => {
-        draft.forEach((subtask) => {
-          if (subtask.id === id) {
-            subtask.isEdited = true;
-          }
-        });
-      })
-    );
-    setCurrentId(id);
+    if (!isError) {
+      setSubtasks(
+        produce(subtasks, (draft) => {
+          draft.forEach((subtask) => {
+            if (subtask.id === id) {
+              subtask.isEdited = true;
+            }
+          });
+        })
+      );
+      setCurrentId(id);
+    }
   };
 
   const handleDeleteSubtask = (id) => {
-    const newSubtasks = subtasks.filter((subtask) => subtask.id !== id);
-    const newCompletedSubTasks = newSubtasks.filter(
-      (subtask) => subtask.isCompleted
-    );
-    setSubtasks(newSubtasks);
-    setCompletedSubtasks(newCompletedSubTasks);
+    if (!isError) {
+      const newSubtasks = subtasks.filter((subtask) => subtask.id !== id);
+      const newCompletedSubTasks = newSubtasks.filter(
+        (subtask) => subtask.isCompleted
+      );
+      setSubtasks(newSubtasks);
+      setCompletedSubtasks(newCompletedSubTasks);
+    }
   };
   const handleAddNewSubtask = () => {
     if (subtasks.length < maxSubtasks) {
       let id = new Date().getTime();
-      let isEdited = false;
 
-      subtasks.forEach((subtask) => {
-        if (subtask.isEdited) {
-          isEdited = true;
-        }
-      });
-      if (!isEdited) {
-        setSubtasks((prevState) => [
-          ...prevState,
-          {
-            title: "new subtask",
-            id,
-            isCompleted: false,
-            isEdited: true,
-          },
-        ]);
-        setCurrentId(id);
-      }
+      setSubtasks((prevState) => [
+        ...prevState,
+        {
+          title: "new subtask",
+          id,
+          isCompleted: false,
+          isEdited: true,
+          error: false,
+        },
+      ]);
+      setCurrentId(id);
     }
   };
   const handleDeleteTask = () => {
@@ -193,6 +235,7 @@ export default function TaskView({ tasks, board }) {
     const newSubtasks = produce(subtasks, (draft) => {
       draft.forEach((subtask) => {
         delete subtask.isEdited;
+        delete subtask.error;
       });
     });
     const newTask = produce(task, (draft) => {
@@ -208,12 +251,18 @@ export default function TaskView({ tasks, board }) {
     return newDocument;
   };
 
-  const handleOnSubmit = (e) => {
-    console.log("dziwka");
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
-    const newDocument = createTask();
-
-    setDocument(newDocument, task.id);
+    setDisplayMessage("");
+    try {
+      const newDocument = createTask();
+      const errorUpdateDocument = await setDocument(newDocument, task.id);
+      if (errorUpdateDocument) {
+        throw Error("Couldn't update this task");
+      }
+    } catch (error) {
+      setDisplayMessage(error.message);
+    }
   };
 
   useEffect(() => {
@@ -222,6 +271,7 @@ export default function TaskView({ tasks, board }) {
       const newSubtasks = produce(newTask.subtasks, (draft) => {
         draft.forEach((subtask) => {
           subtask.isEdited = false;
+          subtask.error = false;
         });
       });
       setTask(newTask);
@@ -239,6 +289,12 @@ export default function TaskView({ tasks, board }) {
     }
   }, [tasks, response, id, navigate]);
 
+  useEffect(() => {
+    if (errorTitle || errorDescription) {
+      setIsError(true);
+    }
+  }, [errorTitle, errorDescription]);
+
   return (
     <>
       {isDelete ? (
@@ -251,22 +307,19 @@ export default function TaskView({ tasks, board }) {
       ) : (
         <>
           <div className="background-color"></div>
-          <section className="taskView">
-            <button className="taskView__close-button" onClick={closeTaskView}>
-              <img
-                src={CloseIcon}
-                alt="close"
-                className="taskView__close-img"
-              />
-            </button>
-            <form onSubmit={handleOnSubmit} className="taskView__form">
+          <section ref={ref} className={`taskView ${darkMode?"darkMode--light":""}`}>
+            <form
+              onSubmit={handleOnSubmit}
+              className={`taskView__form ${darkMode ? "darkMode" : ""}`}>
               <div className="taskView__form-wrapper taskView__form-wrapper--title">
                 {editTitle ? (
                   <textarea
-                    className="taskView__form-input taskView__form-input--title .taskView__form-input::-webkit-scrollbar"
+                    className={`taskView__form-input taskView__form-input--title ${
+                      errorTitle ? "taskView__form-input--error" : ""
+                    } ${darkMode?"darkMode--light":""}`}
                     required={true}
                     type="text"
-                    maxLength={100}
+                    maxLength={150}
                     value={title}
                     autoFocus
                     style={{ height: titleHeight }}
@@ -276,8 +329,11 @@ export default function TaskView({ tasks, board }) {
                     onBlur={handleTitleFocusOut}></textarea>
                 ) : (
                   <>
-                    <h2 className="taskView__form-h2">{title && title}</h2>
-                    <button onClick={handleEditTitle} className="edit">
+                    <h2 className={`taskView__form-h2 ${darkMode?"darkMode--light":""}`}>{title && title}</h2>
+                    <button
+                      type="button"
+                      onClick={handleEditTitle}
+                      className="edit">
                       <img className="edit__img" src={Edit} alt="edit" />
                     </button>
                   </>
@@ -306,23 +362,26 @@ export default function TaskView({ tasks, board }) {
                 <span className="taskView__form-span">Description</span>
                 {editDescription ? (
                   <textarea
-                    className="taskView__form-input taskView__form-input--description .taskView__form-input::-webkit-scrollbar"
+                    className={`taskView__form-input taskView__form-input--description ${
+                      errorDescription ? "taskView__form-input--error" : ""
+                    } ${darkMode?"darkMode--light":""}`}
                     rows="1"
                     type="text"
                     value={description}
                     autoFocus
-                    maxLength={250}
+                    maxLength={300}
                     style={{ height: descriptionHeight }}
                     onChange={handleDescriptionChange}
                     onFocus={handleDescriptionHeight}
                     onInput={handleDescriptionHeight}
                     onBlur={handleDescriptionFocusOut}></textarea>
                 ) : (
-                  <div className="taskView__form-subtask-wrapper">
+                      <div className={`taskView__form-subtask-wrapper ${darkMode?"darkMode--dark":""}`}>
                     <p className="taskView__form-description">
                       {description && description}
                     </p>
                     <button
+                      type="button"
                       onClick={handleEditDescription}
                       className="edit edit--description">
                       <img className="edit__img" src={Edit} alt="edit" />
@@ -339,18 +398,18 @@ export default function TaskView({ tasks, board }) {
                     return (
                       <div
                         key={subtask.id}
-                        className="taskView__form-subtask-wrapper">
+                        className={`taskView__form-subtask-wrapper ${darkMode?"darkMode--dark":""} ${(darkMode&&!subtask.isCompleted?"darkMode--subtask-inactive":"")}`}>
                         <label
-                          ref={subtask.isEdited ? ref : null}
+                          ref={subtask.isEdited ? refSubtask : null}
                           className={`taskView__label`}>
                           <input
-                            className={`taskView__form-input-checkbox taskView__form-input-checkbox--subtask `}
+                            className={`taskView__form-input-checkbox taskView__form-input-checkbox--subtask ${darkMode?"darkMode--dark-checkbox":""}`}
                             type="checkbox"
                             onChange={(e) =>
                               handleSubtaskChange(e, subtask.id, subtask)
                             }
                             checked={subtask.isCompleted ? true : false}
-                          />
+                            />                           
 
                           {!subtask.isEdited ? (
                             <>
@@ -358,14 +417,18 @@ export default function TaskView({ tasks, board }) {
                                 className={`taskView__form-span taskView__form-span--checked ${
                                   !subtask.isCompleted &&
                                   "taskView__form-span--unchecked"
-                                }`}>
+                                } ${(darkMode&&!subtask.isCompleted?"darkMode--span-inactive":"")}`}>
                                 {subtask.title}
                               </span>
                             </>
                           ) : (
                             <>
                               <textarea
-                                className="taskView__form-input taskView__form-input--subtask .taskView__form-input::-webkit-scrollbar"
+                                className={`taskView__form-input taskView__form-input--subtask ${
+                                  subtask.error
+                                    ? "taskView__form-input--error"
+                                    : ""
+                                } ${darkMode?"darkMode--light":""}`}
                                 maxLength={150}
                                 value={subtask.title}
                                 onChange={(e) =>
@@ -374,6 +437,7 @@ export default function TaskView({ tasks, board }) {
                                 autoFocus
                               />
                               <button
+                                type="button"
                                 onClick={() => handleDeleteSubtask(subtask.id)}
                                 className={`edit edit--delete-subtask `}>
                                 <img
@@ -389,6 +453,7 @@ export default function TaskView({ tasks, board }) {
                           <>
                             {" "}
                             <button
+                              type="button"
                               onClick={() => handleDeleteSubtask(subtask.id)}
                               className={`edit edit--delete-subtask `}>
                               <img
@@ -398,6 +463,7 @@ export default function TaskView({ tasks, board }) {
                               />
                             </button>
                             <button
+                              type="button"
                               onClick={(e) => handleEditSubtask(e, subtask.id)}
                               className={`edit edit--description `}>
                               <img
@@ -412,15 +478,20 @@ export default function TaskView({ tasks, board }) {
                     );
                   })}
                 <button
+                  disabled={isError}
                   onClick={handleAddNewSubtask}
                   type="button"
-                  className="taskView__form-button taskView__form-button--light-purple">
+                  className={`taskView__form-button taskView__form-button--light-purple ${
+                    isError
+                      ? "taskView__form-button--light-purple-disabled"
+                      : ""
+                  }`}>
                   <p className="taskView__form-button-p">Add new Subtask</p>
                 </button>
               </div>
               <div className="taskView__form-wrapper">
                 <span className="taskView__form-span"> Current Status</span>
-                <div className="taskView__form-input-wrapper">
+                <div className={`taskView__form-input-wrapper ${darkMode?"darkMode--dark":""}`}>
                   {board &&
                     board.columns.map((column) => {
                       if (column.active)
@@ -430,7 +501,7 @@ export default function TaskView({ tasks, board }) {
                             className="taskView__form-checkbox-wrapper">
                             <label className="taskView__label">
                               <input
-                                className="taskView__form-input-checkbox"
+                                className={`taskView__form-input-checkbox ${darkMode?"darkMode--dark-checkbox":""}`}
                                 type="checkbox"
                                 value={column.name}
                                 name={column.name}
@@ -445,9 +516,11 @@ export default function TaskView({ tasks, board }) {
                             </label>
                           </div>
                         );
+                      return ""
                     })}
                 </div>
               </div>
+              <p className="taskView__form-alert">{displayMessage}</p>
               <div className="taskView__form-buttons-wrapper">
                 <button
                   onClick={() => handleDeleteButton(true)}
@@ -455,7 +528,11 @@ export default function TaskView({ tasks, board }) {
                   className="taskView__form-button taskView__form-button--delete">
                   <p className="taskView__form-button-p">Delete Task</p>
                 </button>
-                <button className="taskView__form-button taskView__form-button--purple">
+                <button
+                  disabled={isError}
+                  className={`taskView__form-button taskView__form-button--purple ${
+                    isError ? "taskView__form-button--purple-disabled" : ""
+                  }`}>
                   <p className="taskView__form-button-p">Save Task</p>
                 </button>
               </div>

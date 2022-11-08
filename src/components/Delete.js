@@ -1,4 +1,5 @@
 import React from "react";
+import { useTheme } from "../hooks/useTheme";
 
 //styles
 import "./Delete.css";
@@ -9,10 +10,13 @@ export default function Delete({
   titleDescription,
   text,
 }) {
+
+  const { darkMode } = useTheme()
+  
   return (
     <>
-    <div className="delete__background-color"></div>
-    <section className="delete">
+    <div className="background-color"></div>
+    <section className={`delete ${darkMode?"darkMode--light":""}`}>
       <div className="delete__text-wrapper">
         <h2 className="delete__title">{titleDescription}</h2>
         <p className="delete__text">{text}</p>
