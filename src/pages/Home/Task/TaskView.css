@@ -1,8 +1,8 @@
 
 
 .taskView{
-    width: 480px;
-    min-height: 440px;
+    width: 48rem;
+    min-height: 44rem;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -22,7 +22,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    margin: 15px 30px 0 ;
+    margin: 1.5rem 3rem 0 ;
     
 
     
@@ -33,12 +33,12 @@
 
 }
 .taskView__close-img{
-    width: 15px; 
+    width: 1.5rem; 
     filter: invert(44%) sepia(82%) saturate(455%) hue-rotate(203deg) brightness(79%) contrast(97%)
 }
 
 .taskView__form{
-    min-height: 440px;
+    min-height: 44rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -46,39 +46,39 @@
 }
 
 .taskView__form-h2{
-    max-width:400px;
+    max-width:40rem;
     align-self: flex-start;
     font-weight: 700;
-    font-size: 18px;
-    line-height: 23px;
+    font-size: 1.8rem;
+    line-height: 2.3rem;
 }
 .taskView__form-wrapper{
-   width: 400px;
-   margin-bottom: 12px;
+   width: 40rem;
+   margin-bottom: 1.2rem;
    display: flex;
    flex-direction: column; 
 }
 .taskView__form-wrapper--title{
-    margin: 32px 0 0px;
+    margin: 3.2rem 0 0;
     flex-direction: row;
 }
 .taskView__form-wrapper--subtasks{
-margin-bottom: 24px;
+margin-bottom: 2.4rem;
 }
 
 
 .taskView__form-description{
-    margin: 10px;
-    width: 380px;
+    margin: 1rem;
+    width: 38rem;
    font-weight: 700;
-   font-size: 13px;
-   line-height: 23px;
+   font-size: 1.3rem;
+   line-height: 2.3rem;
    color: #828FA3;
 }
 .taskView__form-span-wrapper{
     
-    width: 400px;
-    margin-top:12px;
+    width: 40rem;
+    margin-top:1.2rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -87,33 +87,33 @@ margin-bottom: 24px;
 .taskView__form-span{
     display: block;
     font-weight: 700;
-    font-size: 12px;
-    line-height: 15px;  
+    font-size: 1.2rem;
+    line-height: 1.5rem;  
     color: #828FA3;
 }
 
 .taskView__form-span--margin{
-    margin: 4px 0;
-    font-size: 12px;
+    margin: 0.4rem 0;
+    font-size: 1.2rem;
     align-self: flex-end;
     opacity: 0.8;
-    font-size: 11px;
+    font-size: 1.1rem;
 }
 .taskView__form-span--checked{
     text-decoration-line: line-through;
 }
 .taskView__form-span--unchecked{
     font-weight: 700;
-font-size: 12px;
-line-height: 15px;
+font-size: 1.2rem;
+line-height: 1.5rem;
 text-decoration-line: none;
 
 color: #000112;
 }
 .taskView__form-input-wrapper{
     width: 100%;
-    height: 40px;
-    margin-top: 16px;
+    height: 4rem;
+    margin-top: 1.6rem;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -125,9 +125,9 @@ color: #000112;
 
 .taskView__form-subtask-wrapper{
     width: 100%;
-    min-height: 40px;
-    margin-top: 16px;
-    padding-right: 10px;
+    min-height: 4rem;
+    margin-top: 1.6rem;
+    padding-right: 1rem;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -143,45 +143,45 @@ align-items: center;
 }
 
 .taskView__form-input-checkbox{
-    min-width: 16px;
-    width: 16px;
-    min-height: 16px;
-    height: 16px;
-    margin-right: 5px;
+    min-width: 1.6rem;
+    width: 1.6rem;
+    min-height: 1.6rem;
+    height: 1.6rem;
+    margin-right: 0.5rem;
 accent-color: #635FC7 ;
 cursor: pointer;
 
 }
 
 .taskView__form-input-checkbox--subtask{
-margin: 0 10px;
+margin: 0 1rem;
 
 }
 
 .taskView__form-input-label{
     font-weight: 700;
-    font-size: 12px;
-    line-height: 15px;
+    font-size: 1.2rem;
+    line-height: 1.5rem;
     opacity: 0.5;
 }
 .taskView__form-select{
-    margin: 12px 0;
+    margin: 1.2rem 0;
     width: 100%;
-    height: 40px;
+    height: 4rem;
     border: 1px solid rgba(130, 143, 163, 0.25);
     border-radius: 4px;
 }
 .taskView__form-input{
     outline: none;
     width: 100%;
-    height: 40px;
-    margin: 12px 0;
+    height: 4rem;
+    margin: 1.2rem 0;
     border: 1px solid rgba(130, 143, 163, 0.25);
 border-radius: 4px;
 text-align: left;
-line-height: 40px;
-padding-left: 10px;
-font-size: 13px;
+line-height: 4rem;
+padding-left: 1rem;
+font-size: 1.3rem;
 font-weight: 500;
 }
 .taskView__form-input::-webkit-scrollbar{
@@ -204,23 +204,23 @@ font-weight: 500;
 
 .taskView__form-input--title{
     resize:none;
-    max-height: 110px;
-    padding: 10px;
+    max-height: 11rem;
+    padding: 1rem;
     margin: 0;
     font-weight: 700;
-font-size: 18px;
-line-height: 23px;
+font-size: 1.8rem;
+line-height: 22.3rem;
 }
 .taskView__form-input::-webkit-scrollbar{
     display: none;
 }
 .taskView__form-input--description{
     resize:none;
-    max-height: 110px;
-    padding: 10px;
+    max-height: 11rem;
+    padding: 1rem;
     font-weight: 700;
-    font-size: 13px;
-    line-height: 23px;
+    font-size: 1.3rem;
+    line-height: 2.3rem;
     color: #828FA3;
 }
 
@@ -230,15 +230,15 @@ line-height: 23px;
     width: 5%;
 }
 .taskView__form-buttons-wrapper{
-    width: 400px;
-   margin: 24px 0 32px;
+    width: 40rem;
+   margin: 2.4rem 0 3.2rem;
     display: flex;
     justify-content: space-between;
 }
 .taskView__form-button{
     width: 100%;
-    height: 40px;
-    margin: 12px 0;
+    height: 4rem;
+    margin: 1.2rem 0;
     border-radius: 20px;
     color: white;
     background-color: cadetblue;
@@ -257,7 +257,7 @@ line-height: 23px;
 }
 .taskView__form-button--purple{
     background-color: #635FC7;
-    margin-left: 8px;
+    margin-left: 0.8rem;
 }
 .taskView__form-button--purple-disabled{
     background-color: #A8A4FF;
@@ -268,7 +268,7 @@ line-height: 23px;
 }
 .taskView__form-button--delete{
     background-color: #EA5555;
-    margin-right: 8px;
+    margin-right: 0.8rem;
    
 }
 .taskView__form-button--delete:hover{
@@ -277,21 +277,21 @@ line-height: 23px;
 
 .taskView__form-button-p{
     font-weight: 700;
-font-size: 13px;
-line-height: 23px;
+font-size: 1.3rem;
+line-height: 2.3rem;
 }
 
 .taskView__form-alert{
-    height: 20px;
+    height: 2rem;
     width: 100%;
-    margin-top: 10px;
+    margin-top: 1rem;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 1.6rem;
     color: red;
     text-align: center;
 }
 .taskView__label{
-    min-height: 40px;
+    min-height: 4rem;
     width: 100%;
     cursor: pointer;
     display: flex;
@@ -301,16 +301,16 @@ line-height: 23px;
 
 .edit{
 display: inline-block;
-margin-left: 15px;
+margin-left: 1.5rem;
 }
 
 .edit--description{
     position: absolute;
-    right: 10px
+    right: 1rem
 }
 
 .edit__img{
-    width: 15px; 
+    width: 1.5rem; 
     filter: invert(44%) sepia(82%) saturate(455%) hue-rotate(203deg) brightness(79%) contrast(97%);
     opacity: 0.5;
 }

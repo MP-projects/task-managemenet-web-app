@@ -1,7 +1,7 @@
 .navbar{
-    width: 1200px;
-    height: 100px;
-    margin: 10px 10px 10px 0;
+    width: 98.5%;
+    height: 10%;
+    margin: 1rem 1rem 1rem 0;
     background-color: white;
     display: flex;
     justify-content: space-between;
@@ -11,24 +11,24 @@
 .navbar__text-wrapper{
     display: flex;
     align-items: center;
-    margin-left: 24px;
+    margin-left: 2.4rem;
 }
 .navbar__text{
 font-weight: 700;
-font-size: 24px;
-line-height: 30px;
+font-size: 2.4rem;
+line-height: 3rem;
 color: #635FC7;
 }
 .navbar__board-menu-wrapper{
-    margin-right: 22px;
+    margin-right: 2.2rem;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .navabar__new-task-button{
-width: 164px;
-height: 48px;
-margin-right: 14px;
+width: 16.4rem;
+height: 4.8rem;
+margin-right: 1.4rem;
 border-radius: 48px;
 background-color: #635FC7;
 opacity: 0.25;
@@ -45,13 +45,13 @@ opacity: 1;
 .navabr__new-task-text{
     display: block;
     font-weight: 700;
-    font-size: 15px;
-    line-height: 19px; 
+    font-size: 1.5rem;
+    line-height: 1.9rem; 
     color: #FFFFFF;
 }
 .navbar__board-menu-button{
-    width: 40px;
-    height: 40px;
+    width: 4rem;
+    height: 4rem;
     display: flex;
     justify-content: center;
     align-items: center;

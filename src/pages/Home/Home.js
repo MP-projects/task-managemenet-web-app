@@ -65,7 +65,6 @@ export default function Home() {
     }
   }, [dataBoards, dataTasks, userData]);
 
-
   return (
     <>
       <Menu uid={user.uid} boards={boards} tasks={tasks} />
@@ -95,9 +94,18 @@ export default function Home() {
               )
             }
           />
-          <Route path="newTask" element={<NewTask />} />
-          <Route path="register" element={<UpdateUser />} />
-          <Route path="profile" element={<MyProfile />} />
+          <Route
+            path="newTask"
+            element={<NewTask />}
+          />
+          <Route
+            path="register"
+            element={<UpdateUser />}
+          />
+          <Route
+            path="profile"
+            element={<MyProfile />}
+          />
           <Route path="About" element={<About />} />
         </Routes>
       </div>

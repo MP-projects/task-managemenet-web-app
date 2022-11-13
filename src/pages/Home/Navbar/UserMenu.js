@@ -180,6 +180,16 @@ export default function UserMenu({
             className={`userMenu__list-element ${
               darkMode ? "darkMode--hover" : ""
             }`}>
+            <Link
+              to ={`${location.pathname}/About`}
+              className="userMenu__list-button">
+              <p className="userMenu__list-button-p"> About author </p>
+            </Link>
+          </li>
+          <li
+            className={`userMenu__list-element ${
+              darkMode ? "darkMode--hover" : ""
+            }`}>
             <button
               onClick={handleLogoutButton}
               className="userMenu__list-button">

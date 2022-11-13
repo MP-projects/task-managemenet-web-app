@@ -1,6 +1,6 @@
 .editBoard{
-    width: 480px;
-    min-height: 440px;
+    width: 48rem;
+    min-height: 44rem;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -20,7 +20,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    margin: 15px 30px 0 ;
+    margin: 1.5rem 3rem 0 ;
     
 }
 .editBoard__close-button:hover>img{
@@ -28,13 +28,13 @@
 
 }
 .editBoard__close-img{
-    width: 15px; 
+    width: 1.5rem; 
     filter: invert(44%) sepia(82%) saturate(455%) hue-rotate(203deg) brightness(79%) contrast(97%)
    
 }
 
 .editBoard__form{
-    min-height: 440px;
+    min-height: 44rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -43,23 +43,23 @@
 
 .editBoard__form-h2{
     align-self: flex-start;
-    margin-left: 40px;
-    margin-top: 32px;
+    margin-left: 4rem;
+    margin-top: 3.2rem;
 
     font-weight: 700;
-font-size: 18px;
-line-height: 23px;
+font-size: 1.8rem;
+line-height: 2.3rem;
 }
 .editBoard__form-wrapper{
-   width: 400px;
+   width: 40rem;
    margin: 0;
    display: flex;
    flex-direction: column; 
 }
 .editBoard__form-span-wrapper{
     
-    width: 400px;
-    margin-top:12px;
+    width: 40rem;
+    margin-top:1.2rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -68,25 +68,25 @@ line-height: 23px;
 .editBoard__form-span{
     display: block;
     font-weight: 700;
-    font-size: 12px;
-    line-height: 15px;  
+    font-size: 1.2rem;
+    line-height: 1.5rem;  
     color: #828FA3;
 }
 .editBoard__form-span--margin{
-    margin: 4px 0;
-    font-size: 12px;
+    margin: 0.4rem 0;
+    font-size: 1.2rem;
     align-self: flex-end;
     opacity: 0.8;
-    font-size: 11px;
+    font-size: 1.1rem;
 }
 .editBoard__form-input-wrapper{
     display: flex;
 }
 .editBoard__form-select{
     outline: none;
-    margin: 12px 0;
+    margin: 1.2rem 0;
     width: 100%;
-    height: 40px;
+    height: 4rem;
     border: 1px solid rgba(130, 143, 163, 0.25);
     border-radius: 4px;
 }
@@ -100,14 +100,14 @@ line-height: 23px;
 .editBoard__form-input{
     outline: none;
     width: 100%;
-    height: 40px;
-    margin: 12px 0;
+    height: 4rem;
+    margin: 1.2rem 0;
     border: 1px solid rgba(130, 143, 163, 0.25);
 border-radius: 4px;
 text-align: left;
-line-height: 40px;
-padding-left: 10px;
-font-size: 13px;
+line-height: 4rem;
+padding-left: 1rem;
+font-size: 1.3rem;
 font-weight: 500;
 }
 
@@ -125,31 +125,33 @@ font-weight: 500;
 }
 .editBoard__form-column-delete{
     width: 5%;
-    margin-left: 16px;
+    margin-left: 1.6rem;
 }
 
 .editBoard__form-column-delete:hover>img{
     filter: invert(51%) sepia(64%) saturate(3911%) hue-rotate(330deg) brightness(97%) contrast(88%)
 }
 .editBoard__form-column-delete-img{
-    width: 15px;
+    width: 1.5rem;
 }
 .editBoard__form-buttons-wrapper{
-    width: 400px;
-    margin-bottom: 40px;
+    width: 40rem;
+    margin-bottom: 4rem;
     display: flex;
     justify-content: space-between;
 }
-.editBoard__form-button{
+.editBoard__form-button
+{
     width: 100%;
-    height: 40px;
-    margin: 12px 0;
+    height: 4rem;
+    margin: 1.2rem 0;
     border-radius: 20px;
     color: white;
 }
+
 .editBoard__form-button--light-purple{
     color: #635FC7;
- background-color: rgba(99, 95, 199, 0.1);  
+    background-color: rgba(99, 95, 199, 0.1);  
 }
 .editBoard__form-button--light-purple:hover{
     background-color:rgba(99, 95, 199, 0.25);
@@ -161,7 +163,7 @@ font-weight: 500;
 }
 .editBoard__form-button--purple{
     background-color: #635FC7;
-    margin-left: 8px;
+    margin-left: 0.8rem;
 }
 .editBoard__form-button--purple:hover{
     background-color: #A8A4FF;
@@ -172,7 +174,7 @@ font-weight: 500;
 
 .editBoard__form-button--delete{
     background-color: #EA5555;
-    margin-right: 8px;
+    margin-right: 0.8rem;
    
 }
 .editBoard__form-button--delete:hover{
@@ -181,16 +183,16 @@ font-weight: 500;
 }
 .editBoard__form-button-p{
     font-weight: 700;
-font-size: 13px;
-line-height: 23px;
+font-size: 1.3rem;
+line-height: 2.3rem;
 }
 
 .editBoard__form-alert{
-    height: 20px;
+    height: 2rem;
     width: 100%;
     text-align: center;
-    margin-top: 10px;
+    margin-top: 1rem;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 1.6rem;
     color: red;
 }

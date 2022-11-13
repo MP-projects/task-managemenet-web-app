@@ -131,7 +131,7 @@ export default function ChangeInfo({ type, handleBackButton }) {
           <button
             onClick={() => { handleBackButton(false); handleClearErrors() }}
             className={`profile__info-edit-button profile__info-edit-button--settings`}>
-            <p className="profile__info-edit-button-p">back</p>
+            <p className="profile__info-edit-button-p">Back</p>
           </button>
         </div>
       </div>

@@ -1,8 +1,7 @@
 .columns {
     align-self: flex-start;
-    width: 1200px;
-    min-height: 904px;
-    
+    width: 100%;
+    min-height: 100%;
     display: grid;
     grid-template-columns: 25% 25% 25% 25%;
 
@@ -10,7 +9,7 @@
 
 .columns__newColumn{
     position: relative;
-    margin: 51px 10px 20px;
+    margin: 5.1rem 1rem 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,16 +18,16 @@
 }
 .columns__newColumn-button {
     position: absolute;
-    top: 416px;
+    top: 41.6rem;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
-    height: 30px;
+    height: 3rem;
 }
 .columns__newColumn-button-p {
     font-weight: 700;
-    font-size: 24px;
-    line-height: 30px;
+    font-size: 2.4rem;
+    line-height: 3rem;
     text-align: center;
     color: #828FA3;
 }

@@ -1,10 +1,10 @@
 .userMenu{
-    width: 180px;
+    width: 18rem;
     background-color: white;
     height: 0;
     position: absolute;
-    right: 20px;
-    top: 90px;
+    right: 2rem;
+    top: 9rem;
     box-shadow: 0px 10px 20px rgba(54, 78, 126, 0.25);
     border-radius: 8px;
     transition: 0.1s;
@@ -13,24 +13,24 @@
 
 }
 .userMenu--active{
-height: 250px;
+height: 28rem;
 }
 .userMenu__list{
     height: 100%;
     display: grid;
-    grid-template-rows: 2fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 2fr 1fr 1fr 1fr 1fr 1fr;
 }
 
 .userMenu__user-name{
     display: flex;
     align-items: center;
-    margin: 0 16px 6px ;
+    margin: 0 1.6rem 0.6rem ;
     border-bottom: 1px solid rgba(54, 78, 126, 0.25);
 }
 .userMenu__user-name-p{
     font-weight: 500;
-    font-size: 13px;
-    line-height: 23px;
+    font-size: 1.3rem;
+    line-height: 2.3rem;
     color: rgba(0,0,0,0.8);
 }
 .userMenu__list-element{   
@@ -67,7 +67,7 @@ height: 250px;
  .userMenu__list-button{
     display: flex;
     align-items: center;
-    margin: 0 16px;
+    margin: 0 1.6rem;
 width: 100%;
 height: 100%;
 text-align: left;
@@ -77,8 +77,8 @@ text-align: left;
 
 .userMenu__list-button-p{
     font-weight: 500;
-    font-size: 13px;
-    line-height: 23px;
+    font-size: 1.3rem;
+    line-height: 2.3rem;
     color: #828FA3;
 }
 .userMenu__list--display-none{

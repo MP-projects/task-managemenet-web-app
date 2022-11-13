@@ -11,42 +11,48 @@ import Login from "./pages/Login";
 //style
 import "./App.css";
 
-
-
 function App() {
- 
-  
   const { user, authIsReady } = useAuthContext();
-  const {darkMode} = useTheme()
-
+  const { darkMode } = useTheme();
 
   return (
-    <main className={`app ${(darkMode&&user)?"darkMode--dark":""}`}>
-
-      {authIsReady && (       
+    <main className={`app ${darkMode && user ? "darkMode--dark" : ""}`}>
+      {authIsReady && (
         <BrowserRouter>
-      
           <Routes>
             <Route
-              path="/"
-              element={user ? <Navigate to="/home" /> : <Login />}
+              path="/task-managemenet-web-app"
+              element={
+                user ? (
+                  <Navigate to="/task-managemenet-web-app/home" />
+                ) : (
+                  <Login />
+                )
+              }
             />
             <Route
               path="register"
-              element={user ? <Navigate to="/home" /> : <Register />}
+              element={
+                user ? (
+                  <Navigate to="/task-managemenet-web-app/home" />
+                ) : (
+                  <Register />
+                )
+              }
             />
 
             <Route
-              path="home/*"
+              path="/task-managemenet-web-app/home/*"
               element={user ? <Home /> : <Navigate to="/" />}
             />
 
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route
+              path="*"
+              element={<Navigate to="/task-managemenet-web-app" />}
+            />
           </Routes>
         </BrowserRouter>
-        
       )}
-      
     </main>
   );
 }

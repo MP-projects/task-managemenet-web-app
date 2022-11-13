@@ -1,7 +1,7 @@
 .about{
-    width: 700px;
-    height: 700px;
-    padding: 20px;
+    width: 60rem;
+    height: 60rem;
+    padding: 2rem;
     position: absolute;
     top:50%;
     left:50%;
@@ -15,16 +15,16 @@
 }
 
 .about__text-wrapper{
-    flex-basis: 50%;
+    flex-basis: 25%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .about__h2{
-    margin: 16px 0;
-    font-size: 24px;
-    line-height: 24px;
+    margin: 1.6rem 0;
+    font-size: 2rem;
+    line-height: 2.2rem;
 }
 
 .about__link{
@@ -39,13 +39,13 @@
 .about__p{
     width: 90%;
     font-weight: 700;
-    font-size: 18px;
-    line-height: 30px;
+    font-size: 1.5rem;
+    line-height: 2.4rem;
     color: #828FA3;
 }
 
 .about__form{
-    flex-basis: 70%;
+    flex-basis: 75%;
     width: 90%;
     align-self: center;
 }
@@ -67,16 +67,17 @@ justify-content: space-between;
 .about__input{
     outline: none;
     width: 100%;
-    height: 51px;
-    margin: 16px 0;
-    padding: 14px;
+    height: 80%;
+    max-height: 5.1rem;
+    margin: 1.6rem 0;
+    padding: 1.4rem;
     border-radius: 4px;
     border: 1px solid rgba(130, 143, 163, 0.8);
     background-color: transparent ;
 }
 .about__input--textarea{
     resize: none;
-    min-height: 150px;
+    min-height: 12rem;
 }
 .about__input::-webkit-scrollbar{
     display: none;
@@ -98,25 +99,25 @@ justify-content: space-between;
 }
 
 .about__input:focus+.about__input-span{
-    top: 0px;
-    left: 10px;
+    top: 0;
+    left: 1rem;
     transform: translate(0, 50%);
-    font-size: 12px;
+    font-size: 1.2rem;
     color: #635FC7;  
 }
 
 .about__input:active+.about__input-span{
-    top: 0px;
-    left: 10px;
+    top: 0;
+    left: 1rem;
     transform: translate(0, 50%);
-    font-size: 12px;
+    font-size: 1.2rem;
     color: #635FC7;  
 }
 .about__input--content+.about__input-span{
-    top: 0px;
-    left: 10px;
+    top: 0;
+    left: 1rem;
     transform: translate(0, 50%);
-    font-size: 12px;
+    font-size: 1.2rem;
     color: #635FC7;  
 }
 .about__input-wrapper>.about__input--content{
@@ -127,8 +128,8 @@ justify-content: space-between;
 .about__label{
     display: block;
     font-weight: 700;
-    font-size: 12px;
-    line-height: 15px;  
+    font-size: 1.2rem;
+    line-height: 1.5rem;  
     color: #828FA3;
 }
 
@@ -136,31 +137,31 @@ justify-content: space-between;
     position: absolute;
     background-color: white;
     color:#828FA3;
-    padding: 0 2px;
+    padding: 0 0.2rem;
     top: 50%;
-    left: 10px;
+    left: 1rem;
     transform: translate(0, -50%);
-    font-size: 18px;
+    font-size: 1.8rem;
     transition: 0.2s;
 }
 
 .about__input-span--content{
-    top: 0px;
-    left: 10px;
+    top: 0;
+    left: 1rem;
     transform: translate(0, 50%);
-    font-size: 12px;
+    font-size: 1.2rem;
     color: #635FC7; 
 }
 .about__input-span--textarea{
-    top:40px
+    top:4rem
 }
 
 .about__response{
 width: 100%;
-height: 30px;
+height: 3rem;
 text-align: center;
-font-size: 18px;
-line-height: 30px;
+font-size: 1.8rem;
+line-height: 3rem;
 color: #828FA3;
 font-weight: 700;
 }
@@ -169,9 +170,9 @@ color: red
 }
 .about__button{
     width: 45%;
-    height: 40px;
-    margin: 12px 0;
-    border-radius: 8px;
+    height: 4rem;
+    margin: 1.2rem 0;
+    border-radius: 0.8rem;
     color: white;
     background-color: #635FC7;
     box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
@@ -184,4 +185,5 @@ color: red
 }
 .about__button-p{
     font-weight: 600;
+    letter-spacing: 1px;
 }
