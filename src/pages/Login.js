@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useRef } from "react";
-import {  Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
 import { useLoginAnonymous } from "../hooks/useLoginAnonymous";
 import { useValidate } from "../hooks/useValidate";
@@ -28,10 +28,8 @@ export default function Login() {
 
   const [remember, setRemember] = useState(false);
 
- 
-
   const { loginAnonymous } = useLoginAnonymous(remember);
-  const { login} = useLogin(remember);
+  const { login } = useLogin(remember);
 
   const handleClearError = () => {
     setErrorEmail("");
@@ -59,11 +57,10 @@ export default function Login() {
     try {
       const errorLog = await loginAnonymous();
       if (errorLog) {
-        throw Error("Couldn't login as guest") 
+        throw Error("Couldn't login as guest");
       }
-    }
-    catch (error) {
-      setDisplayMessage(error.message)
+    } catch (error) {
+      setDisplayMessage(error.message);
     }
   };
 
@@ -76,9 +73,9 @@ export default function Login() {
     }
 
     try {
-   const errorLog = await login(email, password);
+      const errorLog = await login(email, password);
       if (errorLog) {
-        throw Error("Invalid email or password")
+        throw Error("Invalid email or password");
       }
     } catch (error) {
       setIsError(true);
@@ -202,7 +199,7 @@ export default function Login() {
           href={"https://github.com/MP-projects"}
           rel={"noreferrer"}
           target="_blank">
-          Paweł Mączka
+          Paweł Mączka{" "}
         </a>
         2022
       </footer>

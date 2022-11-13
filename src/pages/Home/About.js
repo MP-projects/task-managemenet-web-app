@@ -13,8 +13,8 @@ import { useEffect } from "react";
 export default function About() {
   const { user } = useAuthContext();
   const navigate = useNavigate();
-  const { validate} = useValidate();
-  const {darkMode} = useTheme()
+  const { validate } = useValidate();
+  const { darkMode } = useTheme();
   const ref = useRef();
   useOnClickOutside(ref, () => {
     handleClearForm();
@@ -113,7 +113,6 @@ export default function About() {
       .then(
         (result) => {
           if (result.status === 200) {
-           
             handleClearForm();
             setResponseText("Message sent successful!");
             setTimeout(() => {
@@ -126,7 +125,7 @@ export default function About() {
         }
       );
   };
-  
+
   useEffect(() => {
     if (errorSubject || errorEmail || errorName || errorMessage) {
       setIsError(true);
@@ -139,14 +138,14 @@ export default function About() {
   return (
     <>
       <div className="background-color"></div>
-      <div ref={ref} className={`about ${darkMode?"darkMode--light":""}`}>
+      <div ref={ref} className={`about ${darkMode ? "darkMode--light" : ""}`}>
         <div className="about__text-wrapper">
           <h2 className="about__h2">Hello dear {user && user.displayName}</h2>
           <p className="about__p">
             My name is Paweł Mączka and I am the creator of this application.
             First of all I want to thank you for using this app. If you like it
-            or have any questions to me, or you just want to know me better just
-            send me a message using form below or you can checkout my{" "}
+            or have any questions to me, or you want to know me better just send
+            me a message using form below or you can checkout my{" "}
             <a
               href={"https://github.com/MP-projects"}
               rel={"noreferrer"}
@@ -166,7 +165,9 @@ export default function About() {
               name="Subject"
               className={`about__input ${
                 subject ? "about__input--content" : ""
-              } ${errorSubject ? "about__input--error" : ""} ${darkMode?"darkMode--light":""}`}
+              } ${errorSubject ? "about__input--error" : ""} ${
+                darkMode ? "darkMode--light" : ""
+              }`}
               value={subject}
               onChange={(e) => {
                 setSubject(e.target.value);
@@ -183,7 +184,7 @@ export default function About() {
               }
               className={`about__input-span ${
                 email ? "about__input-span--content" : ""
-              } ${darkMode?"darkMode--light":""}`}>
+              } ${darkMode ? "darkMode--light" : ""}`}>
               Subject*
             </span>
           </div>
@@ -195,7 +196,9 @@ export default function About() {
                 name="name"
                 className={`about__input ${
                   name ? "about__input--content" : ""
-                } ${errorName ? "about__input--error" : ""} ${darkMode?"darkMode--light":""}`}
+                } ${errorName ? "about__input--error" : ""} ${
+                  darkMode ? "darkMode--light" : ""
+                }`}
                 value={name}
                 onChange={(e) => {
                   setName(e.target.value);
@@ -212,7 +215,7 @@ export default function About() {
                 }
                 className={`about__input-span ${
                   name ? "about__input-span--content" : ""
-                } ${darkMode?"darkMode--light":""}`}>
+                } ${darkMode ? "darkMode--light" : ""}`}>
                 Name*
               </span>
             </div>
@@ -223,7 +226,9 @@ export default function About() {
                 name="email"
                 className={`about__input ${
                   email ? "about__input--content" : ""
-                } ${errorEmail ? "about__input--error" : ""} ${darkMode?"darkMode--light":""}`}
+                } ${errorEmail ? "about__input--error" : ""} ${
+                  darkMode ? "darkMode--light" : ""
+                }`}
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -240,7 +245,7 @@ export default function About() {
                 }
                 className={`about__input-span ${
                   email ? "about__input-span--content" : ""
-                } ${darkMode?"darkMode--light":""}`}>
+                } ${darkMode ? "darkMode--light" : ""}`}>
                 Email adress*
               </span>
             </div>
@@ -252,7 +257,9 @@ export default function About() {
               name="message"
               className={`about__input about__input--textarea ${
                 message ? "about__input--content" : ""
-              } ${errorMessage ? "about__input--error" : ""} ${darkMode?"darkMode--light":""}`}
+              } ${errorMessage ? "about__input--error" : ""} ${
+                darkMode ? "darkMode--light" : ""
+              }`}
               value={message}
               onChange={(e) => {
                 setMessage(e.target.value);
@@ -269,7 +276,7 @@ export default function About() {
               }
               className={`about__input-span about__input-span--textarea${
                 message ? "about__input-span--content" : ""
-              } ${darkMode?"darkMode--light":""}`}>
+              } ${darkMode ? "darkMode--light" : ""}`}>
               Message*
             </span>
           </div>
