@@ -171,6 +171,15 @@ export default function Navbar({ boards, tasks, userData, uid }) {
     }
   }, [dataIsClicked, userData, boards, tasks, boardId]);
 
+  useEffect(() => {
+    if (boards) {
+      if (userData.length === 0) {
+        console.log("zadziałanie");
+        handleExampleData(true);
+      }
+    }
+  }, [boards, userData]);
+
   return (
     <nav className={`navbar ${darkMode ? "darkMode--light" : ""}`}>
       {menuIsClicked && (
