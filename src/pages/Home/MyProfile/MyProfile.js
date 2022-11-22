@@ -184,6 +184,7 @@ export default function MyProfile() {
                     <>
                       <input
                         value={displayName.toUpperCase()}
+                        maxLength="15"
                         autoFocus
                         onChange={(e) => setDisplayName(e.target.value)}
                         type="text"
@@ -252,7 +253,7 @@ export default function MyProfile() {
                           Email
                         </span>
                         <p className="profile__info-content-p">
-                          {user && user.email}
+                          {user && (user.isAnonymous ? "GUEST" : user.email)}
                         </p>
                       </div>
                       <div className="profile__info-content">
@@ -336,6 +337,7 @@ export default function MyProfile() {
                   </div>
                 )}
               </div>
+
               <div className="profile__settings-wrapper">
                 <div className="profile__info-title-wrapper">
                   <h2 className="profile__info-h2">Settings</h2>
@@ -344,24 +346,25 @@ export default function MyProfile() {
                 <div className="profile__info-edit-wrapper">
                   <button
                     onClick={() => handleChangeEmailButton(true)}
-                    disabled={isChangeEmailClicked}
+                    disabled={isChangeEmailClicked || user.isAnonymous}
                     className={`profile__info-edit-button ${
-                      isChangeEmailClicked &&
+                      isChangeEmailClicked || user.isAnonymous &&
                       "profile__info-edit-button--active"
                     }`}>
                     <p className="profile__info-edit-button-p">Change email</p>
                   </button>
                   <button
                     onClick={() => handleChangePasswordButton(true)}
-                    disabled={isChangePasswordClicked}
+                    disabled={isChangePasswordClicked || user.isAnonymous}
                     className={`profile__info-edit-button ${
-                      isChangePasswordClicked &&
+                      isChangePasswordClicked || user.isAnonymous &&
                       "profile__info-edit-button--active"
                     }`}>
                     <p className="profile__info-edit-button-p">
                       Change password
                     </p>
                   </button>
+
                   <button
                     onClick={() => handleDeleteAccountButton(true)}
                     className="profile__info-edit-button profile__info-edit-button--delete">

@@ -20,6 +20,11 @@ height: 28rem;
     display: grid;
     grid-template-rows: 2fr 1fr 1fr 1fr 1fr 1fr;
 }
+.userMenu__list--anonymous{
+    height: 100%;
+    display: grid;
+    grid-template-rows: 2fr 1fr 1fr 1fr 1fr 1fr 1r;
+}
 
 .userMenu__user-name{
     display: flex;

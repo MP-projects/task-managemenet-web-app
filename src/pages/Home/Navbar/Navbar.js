@@ -174,7 +174,6 @@ export default function Navbar({ boards, tasks, userData, uid }) {
   useEffect(() => {
     if (boards) {
       if (userData.length === 0) {
-        console.log("zadziałanie");
         handleExampleData(true);
       }
     }

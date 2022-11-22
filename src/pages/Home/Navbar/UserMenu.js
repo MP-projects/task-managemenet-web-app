@@ -94,9 +94,9 @@ export default function UserMenu({
           darkMode ? "darkMode--dark" : ""
         }`}>
         <ul
-          className={`userMenu__list ${
-            !menuClicked && "userMenu__list--display-none"
-          }`}>
+          className={` ${
+            user.isAnonymous ? "userMenu__list--anonymous" : "userMenu__list"
+          } ${!menuClicked && "userMenu__list--display-none"} `}>
           <li className="userMenu__user-name">
             <p
               className={`userMenu__user-name-p ${
@@ -111,32 +111,30 @@ export default function UserMenu({
               </strong>
             </p>
           </li>
-          {user &&
-            (user.isAnonymous ? (
-              <li
-                className={`userMenu__list-element ${
-                  darkMode ? "darkMode--hover" : ""
-                }`}>
-                <Link
-                  onClick={handleCloseMenu}
-                  to={`${location.pathname}/register`}
-                  className="userMenu__list-button">
-                  <p className="userMenu__list-button-p">Sign up</p>
-                </Link>
-              </li>
-            ) : (
-              <li
-                className={`userMenu__list-element ${
-                  darkMode ? "darkMode--hover" : ""
-                }`}>
-                <Link
-                  onClick={handleCloseMenu}
-                  to={`${location.pathname}/profile`}
-                  className="userMenu__list-button">
-                  <p className="userMenu__list-button-p">My account </p>
-                </Link>
-              </li>
-            ))}
+          {user && user.isAnonymous && (
+            <li
+              className={`userMenu__list-element ${
+                darkMode ? "darkMode--hover" : ""
+              }`}>
+              <Link
+                onClick={handleCloseMenu}
+                to={`${location.pathname}/register`}
+                className="userMenu__list-button">
+                <p className="userMenu__list-button-p">Sign up</p>
+              </Link>
+            </li>
+          )}
+          <li
+            className={`userMenu__list-element ${
+              darkMode ? "darkMode--hover" : ""
+            }`}>
+            <Link
+              onClick={handleCloseMenu}
+              to={`${location.pathname}/profile`}
+              className="userMenu__list-button">
+              <p className="userMenu__list-button-p">My account </p>
+            </Link>
+          </li>
 
           <li
             className={`userMenu__list-element ${
@@ -181,7 +179,7 @@ export default function UserMenu({
               darkMode ? "darkMode--hover" : ""
             }`}>
             <Link
-              to ={`${location.pathname}/About`}
+              to={`${location.pathname}/About`}
               className="userMenu__list-button">
               <p className="userMenu__list-button-p"> About author </p>
             </Link>
