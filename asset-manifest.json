@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/task-managemenet-web-app/static/css/main.e3506fd7.css",
-    "main.js": "/task-managemenet-web-app/static/js/main.40735036.js",
+    "main.css": "/task-managemenet-web-app/static/css/main.3b0361ce.css",
+    "main.js": "/task-managemenet-web-app/static/js/main.fd0e8151.js",
     "static/js/787.48843309.chunk.js": "/task-managemenet-web-app/static/js/787.48843309.chunk.js",
     "static/media/MP-Projects-logo.png": "/task-managemenet-web-app/static/media/MP-Projects-logo.25de4953da7e1473657d.png",
     "index.html": "/task-managemenet-web-app/index.html",
@@ -14,12 +14,12 @@
     "static/media/trash-solid.svg": "/task-managemenet-web-app/static/media/trash-solid.26cfd3d2054b6e033432eeaef8b63944.svg",
     "static/media/check-solid.svg": "/task-managemenet-web-app/static/media/check-solid.d77a6106b69459fb02faabc5c2925156.svg",
     "static/media/icon-cross.svg": "/task-managemenet-web-app/static/media/icon-cross.d4ca9e0d2a82f7ea4ae08238a42f84ed.svg",
-    "main.e3506fd7.css.map": "/task-managemenet-web-app/static/css/main.e3506fd7.css.map",
-    "main.40735036.js.map": "/task-managemenet-web-app/static/js/main.40735036.js.map",
+    "main.3b0361ce.css.map": "/task-managemenet-web-app/static/css/main.3b0361ce.css.map",
+    "main.fd0e8151.js.map": "/task-managemenet-web-app/static/js/main.fd0e8151.js.map",
     "787.48843309.chunk.js.map": "/task-managemenet-web-app/static/js/787.48843309.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e3506fd7.css",
-    "static/js/main.40735036.js"
+    "static/css/main.3b0361ce.css",
+    "static/js/main.fd0e8151.js"
   ]
 }
